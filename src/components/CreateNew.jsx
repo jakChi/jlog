@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-const CreateNew = ({active, hideComponent, sendBlog}) => {
-  const [input, setInput] = useState(null);
-  const [name, setName] = useState(null);
-  
+const CreateNew = ({ active, hideComponent, sendBlog }) => {
+  const [input, setInput] = useState("");
+  const [name, setName] = useState("");
+
   const handleChange = (e) => {
     setInput(e.target.value);
   };
@@ -16,14 +16,14 @@ const CreateNew = ({active, hideComponent, sendBlog}) => {
       hideComponent();
     } else {
       alert("you should name your blog");
-    }  
+    }
   };
 
   const deletion = () => {
     setInput("");
     setName("");
     hideComponent();
-  }
+  };
 
   return active ? (
     <div id="create-blog">
@@ -36,7 +36,8 @@ const CreateNew = ({active, hideComponent, sendBlog}) => {
           value={name}
         />
       </label>
-      <label>ტექსტი:
+      <label>
+        ტექსტი:
         <textarea
           id="text-box"
           onChange={handleChange}
