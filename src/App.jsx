@@ -3,13 +3,7 @@ import "./App.css";
 import CreateNew from "./components/CreateNew";
 import Blog from "./components/Blog";
 import { initializeApp } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  orderBy,
-} from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
 
