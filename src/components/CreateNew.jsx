@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 
 const CreateNew = ({ active, hideComponent, sendBlog }) => {
@@ -9,13 +10,20 @@ const CreateNew = ({ active, hideComponent, sendBlog }) => {
   };
 
   const createBlog = () => {
-    if (name) {
-      sendBlog({ text: input, name: name });
+    if (name && input) {
+      const date = new Date().toLocaleString("ka-GE", {
+        dateStyle: "long",
+        timeStyle: "short",
+        hour12: false,
+      });
+
+      sendBlog({ text: input, name: name, createdAt: date });
+
       setInput("");
       setName("");
       hideComponent();
     } else {
-      alert("you should name your blog");
+      alert("you should give content to your blog!");
     }
   };
 
