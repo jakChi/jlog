@@ -12,7 +12,6 @@ const SignUp = ({ auth }) => {
   const signUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed up
         const user = userCredential.user;
         console.log("userCredential: ", user);
       })
@@ -33,6 +32,7 @@ const SignUp = ({ auth }) => {
           <input
             type="email"
             value={email}
+            placeholder="some@gmail.com"
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
@@ -41,6 +41,7 @@ const SignUp = ({ auth }) => {
           <input
             type="password"
             value={password}
+            placeholder="მინ 6 სიმბოლო"
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>

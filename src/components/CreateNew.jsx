@@ -17,7 +17,13 @@ const CreateNew = ({ active, hideComponent, sendBlog, user }) => {
         hour12: false,
       });
 
-      sendBlog({ text: input, name: name, createdAt: date, author: user });
+      //send blog-data to app.jsx  
+      sendBlog({
+        text: input,
+        name: name,
+        createdAt: date,
+        author: user,
+      });
 
       setInput("");
       setName("");

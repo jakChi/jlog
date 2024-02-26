@@ -54,10 +54,12 @@ const App = () => {
         // User is signed in, see docs for a list of available properties https://firebase.google.com/docs/reference/js/auth.user
         setUserInfo({
           userId: user.uid,
+          userName: user.displayName,
           userEmail: user.email,
           emailVerif: user.emailVerified,
+          userPic: user.photoURL
         });
-        console.log("auth state changed listener!");
+        console.log("auth state changed listener!", user);
       } else {
         console.log("User is not logged in!");
       }
@@ -65,6 +67,7 @@ const App = () => {
 
     getBlogs(db);
   }, []);
+
 
   const blogToDb = async (data) => {
     //set the state
@@ -107,12 +110,12 @@ const App = () => {
                 active={showCreate}
                 hideComponent={() => setShowCreate(false)}
                 sendBlog={blogToDb}
-                user={userInfo.userEmail}
+                user={userInfo.userName}
               />
               <BlogList blogsData={blogs} />
             </div>
             <div id="right-pane">
-              <UserInfo user={userInfo} />
+              <UserInfo user={userInfo} auth={auth} />
             </div>
           </main>
         </div>

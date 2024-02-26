@@ -13,7 +13,7 @@
 #app-container {
   margin: auto;
   margin-top: 50px;
-  width: 90%;
+  width: 100%;
   min-height: 100vh;
 }
 
@@ -53,10 +53,11 @@ header {
 main {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 #create-blog {
+  padding: 1em;
   min-height: 20vh;
   display: flex;
   flex-direction: column;
@@ -66,10 +67,10 @@ main {
 
 #create-blog input,
 #create-blog textarea {
-  width: 50%;
+  width: 100%;
 }
 
-#blogs {
+#blog-list {
   width: 100%;
   height: 100%;
 }
@@ -77,26 +78,64 @@ main {
 #blog-container {
   width: 100%;
   margin: 20px auto;
+  padding: 1em;
   border: 1px solid blue;
+  position: relative;
+}
+
+.user-info {
+  margin: 2em;
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid green;
+}
+
+.user-info button {
+  margin: 5px auto;
+  width: 30%;
+}
+
+img {
+  margin: 10px auto;
+  width: 25%;
+  border-radius: 50%;
 }
 
 fieldset {
   margin: 2em auto;
   padding: 2em;
-  width: 70%;
+  width: 50%;
 }
 
 fieldset > legend {
   font-size: 25px;
 }
 
-fieldset > label > input {
+fieldset input {
+  width: 50%;
+}
+
+input,
+textarea {
   display: block;
   margin: 10px auto;
-  width: 40%;
+  width: 90%;
   height: 2em;
   background-color: transparent;
   border: 1px solid blue;
   border-radius: 10px;
   font-size: 18px;
+}
+
+.update-profile {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+span {
+  font-style: italic;
+  text-decoration: underline;
+  color: rgb(2, 227, 247);
 }

@@ -4,7 +4,8 @@ import Blog from "./Blog";
 
 const BlogList = ({ blogsData }) => {
   return (
-    <div id="blogs">
+    <div id="blog-list">
+      <h2>ბლოგები</h2>
       {blogsData.map((blog, i) => (
         <Blog
           text={blog.text}

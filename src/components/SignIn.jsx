@@ -26,12 +26,19 @@ const SignIn = ({ auth }) => {
         <legend>ავტორიზაციის განყოფილება</legend>
         <label>
           იმეილი:
-          <input type="email" onChange={(e) => setEmail(e.target.value)} />
+          <input
+            type="email"
+            placeholder="შენი იმეილი"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </label>
         <label>
           პასვორდი:
           <input
             type="password"
+            placeholder="შენი პასვორდი"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
