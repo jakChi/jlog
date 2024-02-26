@@ -1,18 +1,16 @@
-import { signOut, getAuth } from "firebase/auth";
+/* eslint-disable react/prop-types */
+import { signOut } from "firebase/auth";
 
-const signingOut = () => {
-  const auth = getAuth();
-
-  signOut(auth)
-    .then(() => {
-      console.log(" user signed out!");
-    })
-    .catch((error) => {
-      console.log("signing out error!!!! error: ", error);
-    });
-};
-
-const SignOut = () => {
+const SignOut = ({ auth }) => {
+  const signingOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("user signed out!  from SingOut");
+      })
+      .catch((error) => {
+        console.log("signing out error!!!! error: ", error);
+      });
+  };
   return (
     <button className="btn" onClick={signingOut}>
       გამოსვლა

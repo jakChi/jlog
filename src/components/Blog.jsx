@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const Blog = ({ text, name, createdAt }) => {
+const Blog = ({ text, name, createdAt, author }) => {
   const [feedBack, setFeedBack] = useState(null);
 
   return text ? (
@@ -24,6 +24,7 @@ const Blog = ({ text, name, createdAt }) => {
       ) : null}
       <div id="feedback">{feedBack}</div>
       <h5>{createdAt}</h5>
+      <h6>by {author}</h6>
     </div>
   ) : null;
 };

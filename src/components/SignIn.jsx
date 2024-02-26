@@ -1,64 +1,45 @@
 /* eslint-disable react/prop-types */
-// import firebase from "firebase/compat/app";
-// import * as firebaseui from "firebaseui";
-import "firebaseui/dist/firebaseui.css";
-import { signInWithPopup, getAuth, GoogleAuthProvider } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 
-const SignIn = ({ userIn }) => {
-  const provider = new GoogleAuthProvider();
-  const auth = getAuth();
+const SignIn = ({ auth }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  let user = null;
-
-  //specify localized auth method
-  auth.languageCode = "ge";
-
-  //Specify additional custom OAuth provider parameters that you want to send with the OAuth request
-  // provider.setCustomParameters({
-  //   login_hint: "user@example.com",
-  // });
-
-  // google sign in popup
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // console.log("token: ", token);
-
-        // The signed-in user info.
-        user = result.user;
-        console.log("user: ", user);
-
-        //send if user is signed in or not to the app.jsx
-        userIn();
-
-        // IdP data available using getAdditionalUserInfo(result)
+  const signInMethod = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("user signed in: ", user);
       })
       .catch((error) => {
-        // Handle Errors here. For a list of error codes have a look at https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signInWithPopup.
         const errorCode = error.code;
-        console.log("errorCode: ", errorCode);
-
+        console.log(errorCode);
         const errorMessage = error.message;
-        console.log("errorMessage: ", errorMessage);
-
-        // The email of the user's account used.
-        const email = error.customData.email;
-        console.log("email: ", email);
-
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log("credential: ", credential);
+        console.log(errorMessage);
       });
   };
 
   return (
-    <>
-      <h1>მოგესალმები ბლოგთა სამფლობელოში!</h1>
-      <button className="btn" onClick={signInWithGoogle}>ავტორიზაცია</button>
-    </>
+    <div id="sign-in">
+      <fieldset>
+        <legend>ავტორიზაციის განყოფილება</legend>
+        <label>
+          იმეილი:
+          <input type="email" onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <label>
+          პასვორდი:
+          <input
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <button className="btn" onClick={() => signInMethod(email, password)}>
+          შესვლა
+        </button>
+      </fieldset>
+    </div>
   );
 };
 

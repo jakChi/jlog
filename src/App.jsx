@@ -1,16 +1,26 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import CreateNew from "./components/CreateNew";
-import Blog from "./components/Blog";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
+import BlogList from "./components/BlogList";
+import UserInfo from "./components/UserInfo";
 
 const App = () => {
   const [showCreate, setShowCreate] = useState(false);
-  const [blogs, setBlogs] = useState([{}]);
-  const [signedIn, setSignedIn] = useState(true);
+  const [blogs, setBlogs] = useState([]);
+  const [userInfo, setUserInfo] = useState();
 
   const firebaseConfig = {
     apiKey: "AIzaSyAawNCaqR1mwc1UvSwhAJlWYk6AGj9Z1rg",
@@ -23,31 +33,50 @@ const App = () => {
   };
 
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(); //amis inicializeba aq mchirdeba ro sawyisi gverdi gavxsna
   const db = getFirestore(app);
+
+  const user = auth.currentUser; //weather user is logged in or not
 
   //get data from blogs firestore db and
   useEffect(() => {
     async function getBlogs(dataBase) {
-      const blogsRef = collection(dataBase, "blogs");
-      const blogSnapshot = await getDocs(blogsRef);
-      console.log(blogSnapshot);
+      const q = query(collection(dataBase, "blogs"), orderBy("createdAt", "desc"));
+      const blogSnapshot = await getDocs(q);
       const blogList = blogSnapshot.docs.map((doc) => doc.data());
-
       setBlogs(blogList);
       console.log("bloglist has called!");
     }
+
+    //app checks on the first render if user is logged in or not
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties https://firebase.google.com/docs/reference/js/auth.user
+        setUserInfo({
+          userId: user.uid,
+          userEmail: user.email,
+          emailVerif: user.emailVerified,
+        });
+        console.log("auth state changed listener!");
+      } else {
+        console.log("User is not logged in!");
+      }
+    });
+
     getBlogs(db);
   }, []);
 
-  //send blogs data to firestore
   const blogToDb = async (data) => {
+    //set the state
     setBlogs([...blogs, data]);
 
+    //send data to firestore
     try {
       const doc = await addDoc(collection(db, "blogs"), {
         name: data.name,
         text: data.text,
         createdAt: data.createdAt,
+        author: data.author
       });
       console.log("document added, ID: ", doc.id);
     } catch (e) {
@@ -57,7 +86,7 @@ const App = () => {
 
   return (
     <>
-      {signedIn ? (
+      {user ? (
         <div id="app-container">
           <nav>
             <header>Jlog</header>
@@ -69,33 +98,30 @@ const App = () => {
               >
                 ახალი ბლოგი
               </button>
-              <SignOut />
+              <SignOut auth={auth} />
             </div>
           </nav>
           <main>
-            <CreateNew
-              active={showCreate}
-              hideComponent={() => setShowCreate(false)}
-              sendBlog={blogToDb}
-            />
-            <div id="blogs">
-              {blogs ? (
-                blogs.map((blog, i) => (
-                  <Blog
-                    text={blog.text}
-                    name={blog.name}
-                    createdAt={blog.createdAt}
-                    key={i}
-                  />
-                ))
-              ) : (
-                <p>there are no blogs yet!</p>
-              )}
+            <div id="left-pane">
+              <CreateNew
+                active={showCreate}
+                hideComponent={() => setShowCreate(false)}
+                sendBlog={blogToDb}
+                user={userInfo.userEmail}
+              />
+              <BlogList blogsData={blogs} />
+            </div>
+            <div id="right-pane">
+              <UserInfo user={userInfo} />
             </div>
           </main>
         </div>
       ) : (
-        <SignIn userIn={() => setSignedIn(true)} />
+        <>
+          <h1>მოგესალმები ბლოგთა სამფლობელოში!</h1>
+          <SignIn auth={auth} />
+          <SignUp auth={auth} />
+        </>
       )}
     </>
   );

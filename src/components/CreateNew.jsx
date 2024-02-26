@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const CreateNew = ({ active, hideComponent, sendBlog }) => {
+const CreateNew = ({ active, hideComponent, sendBlog, user }) => {
   const [input, setInput] = useState("");
   const [name, setName] = useState("");
 
@@ -17,7 +17,7 @@ const CreateNew = ({ active, hideComponent, sendBlog }) => {
         hour12: false,
       });
 
-      sendBlog({ text: input, name: name, createdAt: date });
+      sendBlog({ text: input, name: name, createdAt: date, author: user });
 
       setInput("");
       setName("");

@@ -1,5 +1,5 @@
 #root {
-  width: 70%;
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -11,8 +11,9 @@
 }
 
 #app-container {
+  margin: auto;
   margin-top: 50px;
-  width: 100%;
+  width: 90%;
   min-height: 100vh;
 }
 
@@ -28,8 +29,13 @@ nav {
 }
 
 header {
-  font-size: 30px;
-  margin: 10px;
+  font-size: 40px;
+  font-style: italic;
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 600;
+  margin: 0 20px;
+  color: cyan;
+  text-shadow: 0 0 10px;
 }
 
 #nav-buttons {
@@ -42,6 +48,12 @@ header {
   margin: 10px;
   width: 40%;
   height: 3em;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 
 #create-blog {
@@ -66,4 +78,25 @@ header {
   width: 100%;
   margin: 20px auto;
   border: 1px solid blue;
+}
+
+fieldset {
+  margin: 2em auto;
+  padding: 2em;
+  width: 70%;
+}
+
+fieldset > legend {
+  font-size: 25px;
+}
+
+fieldset > label > input {
+  display: block;
+  margin: 10px auto;
+  width: 40%;
+  height: 2em;
+  background-color: transparent;
+  border: 1px solid blue;
+  border-radius: 10px;
+  font-size: 18px;
 }
