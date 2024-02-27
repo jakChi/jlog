@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-const Blog = ({ text, name, createdAt, author }) => {
+const Blog = ({ text, name, createdAt, author, currentUser }) => {
   //const [feedBack, setFeedBack] = useState(null); რეაქციები ბლოგებზე
 
   return text ? (
@@ -24,7 +24,14 @@ const Blog = ({ text, name, createdAt, author }) => {
       <div id="feedback">{feedBack}</div> */}
       <h5>{createdAt}</h5>
       <h5>
-        ავტორი: <span>{author}</span>
+        ავტორი:{" "}
+        <span
+          style={
+            author == currentUser ? { color: "lime" } : null
+          }
+        >
+          {author}
+        </span>
       </h5>
     </div>
   ) : null;

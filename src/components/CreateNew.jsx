@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const CreateNew = ({ active, hideComponent, sendBlog, user }) => {
+const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
   const [input, setInput] = useState("");
   const [name, setName] = useState("");
 
@@ -10,26 +10,26 @@ const CreateNew = ({ active, hideComponent, sendBlog, user }) => {
   };
 
   const createBlog = () => {
-    if (name && input) {
+    if (name && input && user) {
       const date = new Date().toLocaleString("ka-GE", {
         dateStyle: "long",
         timeStyle: "short",
         hour12: false,
       });
 
-      //send blog-data to app.jsx  
-      sendBlog({
+      //send blog-data to app.jsx
+      blogsFunction({
         text: input,
         name: name,
         createdAt: date,
-        author: user,
+        author: user.displayName,
       });
 
       setInput("");
       setName("");
       hideComponent();
     } else {
-      alert("you should give content to your blog!");
+      alert("შეავსე ველები და დაირქვი ფსევდონიმი, თორემ არ შევქმნი!");
     }
   };
 

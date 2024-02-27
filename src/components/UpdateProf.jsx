@@ -8,23 +8,38 @@ const UpdateProf = ({ auth }) => {
   const [userPic, setUserPic] = useState("");
 
   const changeUserName = () => {
-    if (userName != "" || userPic != "") {
+    if (userName != "") {
       updateProfile(auth.currentUser, {
         displayName: userName,
-        photoURL: userPic,
       })
         .then(() => {
+          setUserName(""); // input field gets cleared
+          setView(false); // if user types photo link then input fields will close
+          alert(
+            "ფსევდონიმი შეცვლილია, შეგიძლია დაარეფრეშო გვერდი ცვლილების სანახავად!"
+          );
           console.log("profile updated!");
         })
         .catch((error) => {
           console.log("error occured!", error);
         });
-      setUserName("");
-      alert(
-        "პროფილის დეტალები შეცვლილია, შეგიძლია დაარეფრეშო გვერდი სანახავად!"
-      );
+    } else if (userPic != "") {
+      updateProfile(auth.currentUser, {
+        photoURL: userPic,
+      })
+        .then(() => {
+          setUserPic(""); // input field gets cleared after change
+          setView(false); // if user types photo link then input fields will close
+          console.log("profile updated!");
+          alert(
+            "პროფილის ფოტო შეცვლილია, შეგიძლია დაარეფრეშო გვერდი ცვლილების სანახავად!"
+          );
+        })
+        .catch((error) => {
+          console.log("error occured!", error);
+        });
     } else {
-      alert("მიუთითე ფსევდონიმი და პროფილის ფოტო თორემ არ შევცვლი!")
+      alert("მიუთითე ფსევდონიმი და პროფილის ფოტო თორემ არ შევცვლი!");
     }
   };
 

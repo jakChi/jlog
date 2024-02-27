@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { signOut } from "firebase/auth";
 
-const SignOut = ({ auth }) => {
+const SignOut = ({ auth, setUser }) => {
   const signingOut = () => {
     signOut(auth)
       .then(() => {
+        setUser(null);
         console.log("user signed out!  from SingOut");
       })
       .catch((error) => {

@@ -6,10 +6,6 @@
   text-align: center;
 }
 
-.card {
-  padding: 3em;
-}
-
 #app-container {
   margin: auto;
   margin-top: 50px;
@@ -71,8 +67,8 @@ main {
 }
 
 #blog-list {
-  width: 100%;
   height: 100%;
+  margin: 1em;
 }
 
 #blog-container {
@@ -80,7 +76,14 @@ main {
   margin: 20px auto;
   padding: 1em;
   border: 1px solid blue;
-  position: relative;
+}
+
+#left-pane {
+  width: 60%;
+}
+
+#right-pane {
+  width: 40%;
 }
 
 .user-info {
@@ -93,13 +96,14 @@ main {
 
 .user-info button {
   margin: 5px auto;
-  width: 30%;
+  width: 50%;
 }
 
 img {
   margin: 10px auto;
   width: 25%;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 fieldset {
@@ -138,4 +142,8 @@ span {
   font-style: italic;
   text-decoration: underline;
   color: rgb(2, 227, 247);
+}
+
+.user-info span {
+  color: rgb(1, 255, 1);
 }

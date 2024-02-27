@@ -4,25 +4,27 @@ import UpdateProf from "./UpdateProf";
 const UserInfo = ({ user, auth }) => {
   return (
     <>
-      <h2>პროფილი</h2>
+      <h1>პროფილი</h1>
       <div className="user-info">
+        <div>
+          <img src={user.photoURL} alt="პროფილის ფოტო"></img>
+        </div>
         <h5>
-          უნიკალური: <span>{user.userId}</span>
+          უნიკალური: <span>{user.uid}</span>
         </h5>
         <h5>
           ფსევდონიმი:{" "}
-          <span>{user.userName ? user.userName : "არაა მითითებული!"}</span>
+          <span>
+            {user.displayName ? user.displayName : "არაა მითითებული!"}
+          </span>
         </h5>
         <h5>
-          იმეილი: <span>{user.userEmail}</span>
+          იმეილი: <span>{user.email}</span>
         </h5>
         <h5>
-          იმელი <span>{user.emailVerif ? "" : "არაა"}</span> ვერიფიცირებული!
+          იმელი <span>{user.emailVerified ? "" : "არაა"}</span> ვერიფიცირებული!
         </h5>
-        <div>
-          <img src={user.userPic} alt="პროფილის ფოტო"></img>
-        </div>
-        <UpdateProf auth={auth} />
+        <UpdateProf auth={auth}/>
       </div>
     </>
   );
