@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { Timestamp } from "firebase/firestore";
 
 const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
   const [input, setInput] = useState("");
@@ -11,18 +12,13 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
 
   const createBlog = () => {
     if (name && input && user) {
-      const date = new Date().toLocaleString("ka-GE", {
-        dateStyle: "long",
-        timeStyle: "short",
-        hour12: false,
-      });
-
       //send blog-data to app.jsx
       blogsFunction({
         text: input,
         name: name,
-        createdAt: date,
+        createdAt: Timestamp.fromDate(new Date()),
         author: user.displayName,
+        authorUid: user.uid,
       });
 
       setInput("");
@@ -45,17 +41,21 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
         სათაური:
         <input
           type="text"
+          placeholder="მიუთითე სათაური"
           id="name-input"
           onChange={(e) => setName(e.target.value)}
           value={name}
+          autoComplete="nogodpleaseno"
         />
       </label>
       <label>
         ტექსტი:
         <textarea
           id="text-box"
+          placeholder="გაგვანდე შენი ფიქრები...😈"
           onChange={handleChange}
           value={input}
+          autoComplete="off"
         ></textarea>
       </label>
       <div id="create-btns">

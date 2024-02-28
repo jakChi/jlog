@@ -24,7 +24,7 @@ nav {
   background-color: rgb(74, 7, 175);
 }
 
-header {
+header a {
   font-size: 40px;
   font-style: italic;
   font-family: "Times New Roman", Times, serif;
@@ -33,6 +33,7 @@ header {
   color: cyan;
   text-shadow: 0 0 10px;
 }
+
 
 #nav-buttons {
   width: 40%;
@@ -61,9 +62,13 @@ main {
   border: 1px solid orangered;
 }
 
-#create-blog input,
-#create-blog textarea {
-  width: 100%;
+#create-blog input {
+  width: 70%;
+  text-align: center;
+}
+
+textarea {
+  min-height: 5em;
 }
 
 #blog-list {

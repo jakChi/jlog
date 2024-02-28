@@ -1,40 +1,33 @@
 /* eslint-disable react/prop-types */
 
-const Blog = ({ text, name, createdAt, author, currentUser }) => {
+const Blog = (props) => {
   //const [feedBack, setFeedBack] = useState(null); რეაქციები ბლოგებზე
 
-  return text ? (
+  //time from createdAt prop is object from firestore and here we convert it into standard time fromat
+  const date = new Date(props.createdAt.seconds * 1000).toLocaleString(
+    "ka-GE",
+    {
+      dateStyle: "long",
+      timeStyle: "short",
+      hour12: false,
+    }
+  );
+
+  return (
     <div id="blog-container">
-      <h2 id="blog-name">{name}</h2>
-      <div id="preview-text">{text}</div>
-      {/*!feedBack ? (
-        <div id="action-btns">
-          <button id="like" className="btn" onClick={() => setFeedBack("✅")}>
-            კაია
-          </button>
-          <button
-            id="disklike"
-            className="btn"
-            onClick={() => setFeedBack("⛔️")}
-          >
-            გააჯვი
-          </button>
-        </div>
-      ) : null
-      <div id="feedback">{feedBack}</div> */}
-      <h5>{createdAt}</h5>
+      <h2 id="blog-name">{props.name}</h2>
+      <div id="preview-text">{props.text}</div>
+      <h5>{date}</h5>
       <h5>
         ავტორი:{" "}
         <span
-          style={
-            author == currentUser ? { color: "lime" } : null
-          }
+          style={props.authorUid == props.uid ? { color: "lime" } : null}
         >
-          {author}
+          {props.author}
         </span>
       </h5>
     </div>
-  ) : null;
+  );
 };
 
 export default Blog;

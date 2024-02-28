@@ -34,28 +34,21 @@ const App = () => {
 
   //app state
   const [showCreate, setShowCreate] = useState(false);
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+  const [blogList, setBlogList] = useState([]);
 
-  //get data from blogs firestore db and
-  useEffect(() => {
-    async function getBlogs(dataBase) {
-      const q = query(
-        collection(dataBase, "blogs"),
-        orderBy("createdAt", "desc")
-      );
-      const blogSnapshot = await getDocs(q);
-      const blogList = blogSnapshot.docs.map((doc) => doc.data());
-      setBlogs(blogList);
-      console.log("bloglist has called!");
-    }
-    getBlogs(db);
-  }, []);
+  //  //get data from blogs firestore db and
+  async function getBlogs(dataBase) {
+    const q = query(
+      collection(dataBase, "blogs"),
+      orderBy("createdAt", "desc")
+    );
+    const blogSnapshot = await getDocs(q);
+    setBlogList(blogSnapshot.docs.map((doc) => doc.data()));
+    console.log("bloglist has called!", blogList);
+  }
 
   const blogToDb = async (data) => {
-    //set the state
-    setBlogs([...blogs, data]);
-
     //send data to firestore
     try {
       const doc = await addDoc(collection(db, "blogs"), {
@@ -63,8 +56,10 @@ const App = () => {
         text: data.text,
         createdAt: data.createdAt,
         author: data.author,
+        authorUid: data.authorUid
       });
       console.log("document added, ID: ", doc.id);
+      getBlogs(db);
     } catch (e) {
       console.error("couldn't add blog to db: ", e);
     }
@@ -82,12 +77,19 @@ const App = () => {
     });
   }, [user, auth]);
 
+  //gets blogs for the first time of app load
+  useEffect(() => {
+    getBlogs(db);
+  }, []);
+
   return (
     <>
       {user ? (
         <div id="app-container">
           <nav>
-            <header>Jlog</header>
+            <header>
+              <a href="https://github.com/jakChi/jlog" rel="noreferrer" target="_blank">Jlog</a>
+            </header>
             <div id="nav-buttons">
               <button
                 id="create-btn"
@@ -107,7 +109,7 @@ const App = () => {
                 blogsFunction={blogToDb}
                 user={user}
               />
-              <BlogList blogsData={blogs} user={user} />
+              <BlogList blogsData={blogList} user={user} />
             </div>
             <div id="right-pane">
               <UserInfo user={user} auth={auth} />
