@@ -11,7 +11,7 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
   };
 
   const createBlog = () => {
-    if (name && input && user) {
+    if (name && input && user.displayName) {
       //send blog-data to app.jsx
       blogsFunction({
         text: input,
