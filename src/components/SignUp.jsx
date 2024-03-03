@@ -5,7 +5,7 @@ import "firebaseui/dist/firebaseui.css";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 
-const SignUp = ({ auth }) => {
+const SignUp = ({ auth, addUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,13 +13,17 @@ const SignUp = ({ auth }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        addUser({
+          uid: user.uid,
+          email: user.email,
+        });
         console.log("userCredential: ", user);
       })
       .catch((error) => {
         const errorCode = error.code;
-        console.log(errorCode);
+        alert(errorCode);
         const errorMessage = error.message;
-        console.log(errorMessage);
+        alert(errorMessage);
       });
   };
 

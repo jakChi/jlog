@@ -45,7 +45,7 @@ const UpdateProf = ({ auth }) => {
 
   return (
     <>
-      <button onClick={() => setView(true)}>განახლება</button>
+      <button onClick={() => setView(true)}>დეტალების შეცვლა</button>
       {view ? (
         <>
           <button onClick={() => setView(false)}>გაუქმება</button>

@@ -36,6 +36,7 @@ const App = () => {
   const [showCreate, setShowCreate] = useState(false);
   const [user, setUser] = useState(null);
   const [blogList, setBlogList] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   //  //get data from blogs firestore db and
   async function getBlogs(dataBase) {
@@ -47,6 +48,13 @@ const App = () => {
     setBlogList(blogSnapshot.docs.map((doc) => doc.data()));
     console.log("bloglist has called!", blogList);
   }
+
+  const getUsers = async () => {
+    const docRef = collection(db, "users");
+    const userSnapshot = await getDocs(docRef);
+    setUserList(userSnapshot.docs.map((doc) => doc.data()));
+    console.log("userList has called ", userList);
+  };
 
   const blogToDb = async (data) => {
     //send data to firestore
@@ -65,6 +73,18 @@ const App = () => {
     }
   };
 
+  const usersToDb = async (data) => {
+    try {
+      const doc = await addDoc(collection(db, "users"), {
+        uid: data.uid,
+        email: data.email,
+      })
+      console.log("doc/user added: ", doc.id);
+    } catch (e) {
+      console.error("couldn't add current user: ", e)
+    }
+  }
+
   useEffect(() => {
     //app checks on the first render if user is logged in or not
     onAuthStateChanged(auth, (user) => {
@@ -80,6 +100,7 @@ const App = () => {
   //gets blogs for the first time of app load
   useEffect(() => {
     getBlogs(db);
+    getUsers();
   }, []);
 
   return (
@@ -112,7 +133,7 @@ const App = () => {
               <BlogList blogsData={blogList} user={user} />
             </div>
             <div id="right-pane">
-              <UserInfo user={user} auth={auth} />
+              <UserInfo user={user} auth={auth} usersList={userList} />
             </div>
           </main>
         </div>
@@ -120,7 +141,7 @@ const App = () => {
         <>
           <h1>მოგესალმები ბლოგთა სამფლობელოში!</h1>
           <SignIn auth={auth} />
-          <SignUp auth={auth} />
+          <SignUp auth={auth} addUser={usersToDb} />
         </>
       )}
     </>

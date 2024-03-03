@@ -14,9 +14,9 @@ const SignIn = ({ auth }) => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        console.log(errorCode);
+        alert(errorCode);
         const errorMessage = error.message;
-        console.log(errorMessage);
+        alert(errorMessage);
       });
   };
 

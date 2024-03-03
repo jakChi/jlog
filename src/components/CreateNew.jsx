@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Timestamp } from "firebase/firestore";
+import { marked } from "marked";
 
 const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
   const [input, setInput] = useState("");
@@ -58,6 +59,11 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
           autoComplete="off"
         ></textarea>
       </label>
+      <h4>შენი ბლოგი გამოჩნდება ასე:</h4>
+      <div
+        id="blog-preview"
+        dangerouslySetInnerHTML={{ __html: marked.parse(input) }}
+      ></div>
       <div id="create-btns">
         <button id="create" className="btn" onClick={createBlog}>
           შეჰქმენ

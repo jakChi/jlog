@@ -1,7 +1,8 @@
 import UpdateProf from "./UpdateProf";
+import Users from "./Users";
 
 /* eslint-disable react/prop-types */
-const UserInfo = ({ user, auth }) => {
+const UserInfo = ({ user, auth, usersList }) => {
   return (
     <>
       <h1>პროფილი</h1>
@@ -24,8 +25,9 @@ const UserInfo = ({ user, auth }) => {
         <h5>
           იმელი <span>{user.emailVerified ? "" : "არაა"}</span> ვერიფიცირებული!
         </h5>
-        <UpdateProf auth={auth}/>
+        <UpdateProf auth={auth} />
       </div>
+      <Users data={usersList} currentUser={user}/>
     </>
   );
 };

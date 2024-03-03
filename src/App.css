@@ -34,7 +34,6 @@ header a {
   text-shadow: 0 0 10px;
 }
 
-
 #nav-buttons {
   width: 40%;
   display: flex;
@@ -60,6 +59,7 @@ main {
   flex-direction: column;
   justify-content: space-around;
   border: 1px solid orangered;
+  text-align: center;
 }
 
 #create-blog input {
@@ -68,7 +68,8 @@ main {
 }
 
 textarea {
-  min-height: 5em;
+  text-align: start;
+  min-height: 10em;
 }
 
 #blog-list {
@@ -81,6 +82,7 @@ textarea {
   margin: 20px auto;
   padding: 1em;
   border: 1px solid blue;
+  text-align: start;
 }
 
 #left-pane {
@@ -102,6 +104,12 @@ textarea {
 .user-info button {
   margin: 5px auto;
   width: 50%;
+}
+
+#user-list {
+  margin: 2em;
+  padding: 0.5em;
+  border: 1px solid yellow;
 }
 
 img {
@@ -151,4 +159,21 @@ span {
 
 .user-info span {
   color: rgb(1, 255, 1);
+}
+
+code {
+  display: block;
+  padding: 1em;
+  background-color: black;
+  color: magenta;
+  border-radius: 10px;
+}
+
+#blog-preview {
+  margin: auto;
+  padding: 1em;
+  width: 85%;
+  border: 1px solid orange;
+  border-radius: 10px;
+  text-align: start;
 }

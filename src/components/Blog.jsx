@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { marked } from "marked";
 
 const Blog = (props) => {
   //const [feedBack, setFeedBack] = useState(null); რეაქციები ბლოგებზე
@@ -16,13 +17,14 @@ const Blog = (props) => {
   return (
     <div id="blog-container">
       <h2 id="blog-name">{props.name}</h2>
-      <div id="preview-text">{props.text}</div>
+      <div
+        id="preview-text"
+        dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }}
+      ></div>
       <h5>{date}</h5>
       <h5>
         ავტორი:{" "}
-        <span
-          style={props.authorUid == props.uid ? { color: "lime" } : null}
-        >
+        <span style={props.authorUid == props.uid ? { color: "lime" } : null}>
           {props.author}
         </span>
       </h5>
