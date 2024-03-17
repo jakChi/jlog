@@ -37,8 +37,8 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
   };
 
   return active ? (
-    <div id="create-blog">
-      <label>
+    <div id="create-blog" className="p-4 bg-gray-900 text-white rounded-lg">
+      <label className="block mb-2">
         სათაური:
         <input
           type="text"
@@ -46,10 +46,11 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
           id="name-input"
           onChange={(e) => setName(e.target.value)}
           value={name}
-          autoComplete="nogodpleaseno"
+          autoComplete="off"
+          className="border border-gray-700 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
         />
       </label>
-      <label>
+      <label className="block mb-2">
         ტექსტი:
         <textarea
           id="text-box"
@@ -57,18 +58,28 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
           onChange={handleChange}
           value={input}
           autoComplete="off"
+          className="border border-gray-700 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
         ></textarea>
       </label>
-      <h4>შენი ბლოგი გამოჩნდება ასე:</h4>
+      <h4 className="text-lg font-semibold mb-2">შენი ბლოგი გამოჩნდება ასე:</h4>
       <div
         id="blog-preview"
         dangerouslySetInnerHTML={{ __html: marked.parse(input) }}
-      ></div>
+        className="border border-gray-700 rounded-md p-2 mb-4 bg-gray-800"
+      />
       <div id="create-btns">
-        <button id="create" className="btn" onClick={createBlog}>
+        <button
+          id="create"
+          className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onClick={createBlog}
+        >
           შეჰქმენ
         </button>
-        <button id="delete" className="btn" onClick={deletion}>
+        <button
+          id="delete"
+          className="btn bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
+          onClick={deletion}
+        >
           გააუქმე
         </button>
       </div>

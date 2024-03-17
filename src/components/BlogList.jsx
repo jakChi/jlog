@@ -4,9 +4,9 @@ import Blog from "./Blog";
 
 const BlogList = ({ blogsData, user }) => {
   return (
-    <div id="blog-list">
-      <h1>ბლოგები</h1>
-      {blogsData ? (
+    <div id="blog-list" className="p-4">
+      <h1 className="text-3xl font-bold mb-4">ბლოგები</h1>
+      {blogsData && blogsData.length > 0 ? (
         blogsData.map((blog, i) => (
           <Blog
             text={blog.text}
@@ -19,7 +19,7 @@ const BlogList = ({ blogsData, user }) => {
           />
         ))
       ) : (
-        <p>there are no blogs yet!</p>
+        <p className="text-gray-500">there are no blogs yet!</p>
       )}
     </div>
   );

@@ -21,28 +21,35 @@ const SignIn = ({ auth }) => {
   };
 
   return (
-    <div id="sign-in">
+    <div id="sign-in" className="p-4">
       <fieldset>
-        <legend>ავტორიზაციის განყოფილება</legend>
-        <label>
+        <legend className="text-lg font-semibold mb-4">
+          ავტორიზაციის განყოფილება
+        </legend>
+        <label className="block mb-2">
           იმეილი:
           <input
             type="email"
             placeholder="შენი იმეილი"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
-        <label>
+        <label className="block mb-2">
           პასვორდი:
           <input
             type="password"
             placeholder="შენი პასვორდი"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
-        <button className="btn" onClick={() => signInMethod(email, password)}>
+        <button
+          className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onClick={() => signInMethod(email, password)}
+        >
           შესვლა
         </button>
       </fieldset>

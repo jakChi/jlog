@@ -45,32 +45,49 @@ const UpdateProf = ({ auth }) => {
 
   return (
     <>
-      <button onClick={() => setView(true)}>დეტალების შეცვლა</button>
-      {view ? (
+      <button
+        onClick={() => setView(true)}
+        className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        დეტალების შეცვლა
+      </button>
+      {view && (
         <>
-          <button onClick={() => setView(false)}>გაუქმება</button>
+          <button
+            onClick={() => setView(false)}
+            className="btn bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded-lg ml-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
+          >
+            გაუქმება
+          </button>
           <div className="update-profile">
-            <label>
+            <label className="block mb-2">
               ახალი ფსევდონიმი:
               <input
                 type="name"
                 value={userName}
                 placeholder="ვლად-დრაკულა666"
                 onChange={(e) => setUserName(e.target.value)}
+                className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </label>
-            <label>
+            <label className="block mb-2">
               ახალი ფოტო:
               <input
                 type="text"
                 placeholder="ჩააკოპირე ფოტოს ლინკი"
                 onChange={(e) => setUserPic(e.target.value)}
+                className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </label>
-            <button onClick={changeUserName}>შეცვლა</button>
+            <button
+              onClick={changeUserName}
+              className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              შეცვლა
+            </button>
           </div>
         </>
-      ) : null}
+      )}
     </>
   );
 };

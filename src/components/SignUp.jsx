@@ -28,28 +28,35 @@ const SignUp = ({ auth, addUser }) => {
   };
 
   return (
-    <div id="sign-up">
+    <div id="sign-up" className="p-4">
       <fieldset>
-        <legend>სარეგისტრაციო განყოფილება</legend>
-        <label>
+        <legend className="text-lg font-semibold mb-4">
+          სარეგისტრაციო განყოფილება
+        </legend>
+        <label className="block mb-2">
           იმეილი:
           <input
             type="email"
             value={email}
             placeholder="some@gmail.com"
             onChange={(e) => setEmail(e.target.value)}
+            className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
-        <label>
+        <label className="block mb-2">
           პასვორდი:
           <input
             type="password"
             value={password}
             placeholder="მინ 6 სიმბოლო"
             onChange={(e) => setPassword(e.target.value)}
+            className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
-        <button className="btn" onClick={signUp}>
+        <button
+          className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onClick={signUp}
+        >
           რეგისტრაცია
         </button>
       </fieldset>
