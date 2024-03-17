@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./App.css";
+import "./global.css";
 import CreateNew from "./components/CreateNew";
 import { initializeApp } from "firebase/app";
 import {
@@ -16,6 +16,8 @@ import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
 import BlogList from "./components/BlogList";
 import UserInfo from "./components/UserInfo";
+import ThemeSwitch from "./components/ThemeSwitch";
+import ThemeSwitchN from "./components/ThemeSwitchN";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAawNCaqR1mwc1UvSwhAJlWYk6AGj9Z1rg",
@@ -34,9 +36,15 @@ const App = () => {
 
   //app state
   const [showCreate, setShowCreate] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(true);
   const [blogList, setBlogList] = useState([]);
   const [userList, setUserList] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
+
+  //change theme
+  const changeTheme = () => {
+    setDarkMode(!darkMode)
+  }
 
   //  //get data from blogs firestore db and
   async function getBlogs(dataBase) {
@@ -64,7 +72,7 @@ const App = () => {
         text: data.text,
         createdAt: data.createdAt,
         author: data.author,
-        authorUid: data.authorUid
+        authorUid: data.authorUid,
       });
       console.log("document added, ID: ", doc.id);
       getBlogs(db);
@@ -78,27 +86,29 @@ const App = () => {
       const doc = await addDoc(collection(db, "users"), {
         uid: data.uid,
         email: data.email,
-      })
+      });
       console.log("doc/user added: ", doc.id);
     } catch (e) {
-      console.error("couldn't add current user: ", e)
+      console.error("couldn't add current user: ", e);
     }
-  }
+  };
 
-  useEffect(() => {
-    //app checks on the first render if user is logged in or not
+  // when user authentification changes this listenner gets called
+  const monitorAuthState = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(auth.currentUser);
         console.log("auth state listener got called!");
       } else {
+        setUser(null);
         console.log("User is not logged in!");
       }
     });
-  }, [user, auth]);
+  };
 
   //gets blogs for the first time of app load
   useEffect(() => {
+    monitorAuthState();
     getBlogs(db);
     getUsers();
   }, []);
@@ -106,10 +116,16 @@ const App = () => {
   return (
     <>
       {user ? (
-        <div id="app-container">
+        <div id="app-container" className={darkMode ? "dark" : "light"}>
           <nav>
             <header>
-              <a href="https://github.com/jakChi/jlog" rel="noreferrer" target="_blank">Jlog</a>
+              <a
+                href="https://github.com/jakChi/jlog"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Jlog
+              </a>
             </header>
             <div id="nav-buttons">
               <button
@@ -120,6 +136,9 @@ const App = () => {
                 ახალი ბლოგი
               </button>
               <SignOut auth={auth} setUser={setUser} />
+              <button onClick={changeTheme}>
+                {darkMode ? "light" : "dark"}
+              </button>
             </div>
           </nav>
           <main>
@@ -132,7 +151,7 @@ const App = () => {
               />
               <BlogList blogsData={blogList} user={user} />
             </div>
-            <div id="right-pane">
+            <div id="right-pane" className="bg-white dark:bg-black">
               <UserInfo user={user} auth={auth} usersList={userList} />
             </div>
           </main>
