@@ -20,7 +20,7 @@ const SignOut = ({ auth, setUser }) => {
       <span className="mr-2">გამოსვლა</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6 inline-block animate-pulse"
+        className="h-6 w-6 inline-block "
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

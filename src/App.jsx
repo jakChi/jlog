@@ -16,6 +16,7 @@ import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
 import BlogList from "./components/BlogList";
 import UserInfo from "./components/UserInfo";
+import ThemeSwitch from "./components/ThemeSwitch";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAawNCaqR1mwc1UvSwhAJlWYk6AGj9Z1rg",
@@ -38,26 +39,6 @@ const App = () => {
   const [blogList, setBlogList] = useState([]);
   const [userList, setUserList] = useState([]);
 
-  const [darkMode, setDarkMode] = useState(localStorage.theme);
-
-  useEffect(() => {
-    if (localStorage.theme === "dark") {
-      document.documentElement.classList.add("dark");
-
-      console.log("added dark class");
-    } else {
-      document.documentElement.classList.remove("dark");
-      console.log("removed dark class");
-    }
-  }, [darkMode]);
-
-  //change theme
-  const toggleThemeChange = () => {
-    setDarkMode(!darkMode);
-    darkMode
-      ? localStorage.setItem("theme", "dark")
-      : localStorage.setItem("theme", null);
-  };
 
   //get data from blogs firestore db and
   async function getBlogs(dataBase) {
@@ -129,19 +110,20 @@ const App = () => {
   return (
     <>
       {user ? (
-        <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen">
-          <nav className="bg-gray-200 dark:bg-gray-800">
-            <header className="py-4 px-8">
+        <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen transition-all">
+          <nav className="bg-gray-200 dark:bg-gray-800 fixed top-0 left-0 w-full h-20 flex justify-between">
+            <header className="px-10 py-4">
               <a
                 href="https://github.com/jakChi/jlog"
                 rel="noreferrer"
                 target="_blank"
-                className="text-lg font-bold"
+                className="text-4xl font-bold"
               >
                 Jlog
               </a>
             </header>
-            <div className="flex justify-between items-center px-8 py-2">
+            <div className="w-1/3 flex justify-between px-8 py-5">
+              <ThemeSwitch />
               <button
                 onClick={() => setShowCreate(true)}
                 className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -149,17 +131,10 @@ const App = () => {
                 ახალი ბლოგი
               </button>
               <SignOut auth={auth} setUser={setUser} />
-              <button
-                onClick={toggleThemeChange}
-                aria-label="toggle dark mode"
-                className="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
-              >
-                {darkMode ? "light" : "dark"}
-              </button>
             </div>
           </nav>
-          <main className="flex">
-            <div className="flex-1 p-4">
+          <main className="mt-20 flex">
+            <div className="flex-1 p-5">
               <CreateNew
                 active={showCreate}
                 hideComponent={() => setShowCreate(false)}
@@ -168,7 +143,7 @@ const App = () => {
               />
               <BlogList blogsData={blogList} user={user} />
             </div>
-            <div className="w-1/4 p-4">
+            <div className="w-1/3 p-4">
               <UserInfo user={user} auth={auth} usersList={userList} />
             </div>
           </main>
