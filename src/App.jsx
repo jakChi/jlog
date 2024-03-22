@@ -16,7 +16,7 @@ import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
 import BlogList from "./components/BlogList";
 import UserInfo from "./components/UserInfo";
-import ThemeSwitch from "./components/ThemeSwitch";
+import Navbar from "./components/Navbar";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAawNCaqR1mwc1UvSwhAJlWYk6AGj9Z1rg",
@@ -34,11 +34,9 @@ const App = () => {
   const db = getFirestore(app);
 
   //app state
-  const [showCreate, setShowCreate] = useState(false);
   const [user, setUser] = useState(true);
   const [blogList, setBlogList] = useState([]);
   const [userList, setUserList] = useState([]);
-
 
   //get data from blogs firestore db and
   async function getBlogs(dataBase) {
@@ -110,41 +108,17 @@ const App = () => {
   return (
     <>
       {user ? (
-        <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen transition-all">
-          <nav className="bg-gray-200 dark:bg-gray-800 fixed top-0 left-0 w-full h-20 flex justify-between">
-            <header className="px-10 py-4">
-              <a
-                href="https://github.com/jakChi/jlog"
-                rel="noreferrer"
-                target="_blank"
-                className="text-4xl font-bold"
-              >
-                Jlog
-              </a>
-            </header>
-            <div className="w-1/3 flex justify-between px-8 py-5">
-              <ThemeSwitch />
-              <button
-                onClick={() => setShowCreate(true)}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                ახალი ბლოგი
-              </button>
-              <SignOut auth={auth} setUser={setUser} />
-            </div>
-          </nav>
-          <main className="mt-20 flex">
-            <div className="flex-1 p-5">
-              <CreateNew
-                active={showCreate}
-                hideComponent={() => setShowCreate(false)}
-                blogsFunction={blogToDb}
-                user={user}
-              />
+        <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen w-full transition-all">
+          <Navbar
+            userPic={user.photoURL}
+            user={user}
+            setUser={setUser}
+            auth={auth}
+          />
+          <main className="mt-16 w-full">
+            <div className="">
+              <CreateNew blogsFunction={blogToDb} user={user} />
               <BlogList blogsData={blogList} user={user} />
-            </div>
-            <div className="w-1/3 p-4">
-              <UserInfo user={user} auth={auth} usersList={userList} />
             </div>
           </main>
         </div>

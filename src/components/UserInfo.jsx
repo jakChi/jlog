@@ -1,12 +1,12 @@
+import SignOut from "./SignOut";
+import ThemeSwitch from "./ThemeSwitch";
 import UpdateProf from "./UpdateProf";
-import Users from "./Users";
 
 /* eslint-disable react/prop-types */
-const UserInfo = ({ user, auth, usersList }) => {
+const UserInfo = ({ user, auth, setUser }) => {
   return (
-    <>
-      <h1 className="text-3xl font-bold text-center mb-6">პროფილი</h1>
-      <div className="user-info flex flex-col items-center justify-center space-y-6">
+    <div className="">
+      <div className="flex flex-col items-center justify-center">
         <div className="rounded-full overflow-hidden border-4 border-blue-500">
           <img
             className="w-24 h-24 object-cover"
@@ -35,8 +35,11 @@ const UserInfo = ({ user, auth, usersList }) => {
         </h5>
         <UpdateProf auth={auth} />
       </div>
-      <Users data={usersList} currentUser={user} />
-    </>
+      <div className="flex flex-col h-32 justify-between items-center py-3">
+        <ThemeSwitch />
+        <SignOut auth={auth} setUser={setUser} />
+      </div>
+    </div>
   );
 };
 

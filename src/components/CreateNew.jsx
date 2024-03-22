@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Timestamp } from "firebase/firestore";
 import { marked } from "marked";
 
-const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
+const CreateNew = ({ blogsFunction, user }) => {
+  const [editor, setEditor] = useState(false);
   const [input, setInput] = useState("");
   const [name, setName] = useState("");
 
@@ -24,7 +25,7 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
 
       setInput("");
       setName("");
-      hideComponent();
+      setEditor(false);
     } else {
       alert("შეავსე ველები და დაირქვი ფსევდონიმი, თორემ არ შევქმნი!");
     }
@@ -33,11 +34,14 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
   const deletion = () => {
     setInput("");
     setName("");
-    hideComponent();
+    setEditor(false);
   };
 
-  return active ? (
-    <div id="create-blog" className="p-4 bg-gray-900 text-white rounded-lg">
+  return editor ? (
+    <div
+      id="create-blog"
+      className="p-4 mx-2 bg-gray-900 text-white rounded-lg"
+    >
       <label className="block mb-2">
         სათაური:
         <input
@@ -84,7 +88,14 @@ const CreateNew = ({ active, hideComponent, blogsFunction, user }) => {
         </button>
       </div>
     </div>
-  ) : null;
+  ) : (
+    <button
+      onClick={() => setEditor(true)}
+      className="bg-blue-500 hover:bg-blue-600 text-white font-extrabold p-3 py-1 mx-36 my-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      +
+    </button>
+  );
 };
 
 export default CreateNew;
