@@ -106,20 +106,18 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen w-full transition-all">
       {user ? (
-        <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen w-full transition-all">
+        <div>
           <Navbar
             userPic={user.photoURL}
             user={user}
             setUser={setUser}
             auth={auth}
           />
-          <main className="mt-16 w-full">
-            <div className="">
-              <CreateNew blogsFunction={blogToDb} user={user} />
-              <BlogList blogsData={blogList} user={user} />
-            </div>
+          <main className="w-full mt-16 sm:mt-20">
+            <CreateNew blogsFunction={blogToDb} user={user} />
+            <BlogList blogsData={blogList} user={user} />
           </main>
         </div>
       ) : (
@@ -131,7 +129,7 @@ const App = () => {
           <SignUp auth={auth} addUser={usersToDb} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

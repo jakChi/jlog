@@ -5,8 +5,8 @@ import UpdateProf from "./UpdateProf";
 /* eslint-disable react/prop-types */
 const UserInfo = ({ user, auth, setUser }) => {
   return (
-    <div className="">
-      <div className="flex flex-col items-center justify-center">
+    <div className="h-full flex flex-col justify-between ">
+      <div className="flex flex-col items-center justify-around h-1/2 text-center relative">
         <div className="rounded-full overflow-hidden border-4 border-blue-500">
           <img
             className="w-24 h-24 object-cover"

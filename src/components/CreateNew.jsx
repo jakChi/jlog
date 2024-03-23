@@ -40,7 +40,7 @@ const CreateNew = ({ blogsFunction, user }) => {
   return editor ? (
     <div
       id="create-blog"
-      className="p-4 mx-2 bg-gray-900 text-white rounded-lg"
+      className="p-4 mx-2 mt-16 bg-gray-900 text-white rounded-lg"
     >
       <label className="block mb-2">
         სათაური:
@@ -89,12 +89,15 @@ const CreateNew = ({ blogsFunction, user }) => {
       </div>
     </div>
   ) : (
-    <button
-      onClick={() => setEditor(true)}
-      className="bg-blue-500 hover:bg-blue-600 text-white font-extrabold p-3 py-1 mx-36 my-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      +
-    </button>
+    <div className="w-full p-3 sm:p-4 sm:absolute sm:top-0 sm:w-32 sm:right-14">
+      <button
+        title="create blog"
+        onClick={() => setEditor(true)}
+        className="bg-blue-500 hover:bg-blue-600 text-white text-3xl font-extrabold block p-3 py-1 mx-auto rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        +
+      </button>
+    </div>
   );
 };
 
