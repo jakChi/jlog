@@ -17,12 +17,12 @@ const Blog = (props) => {
   return (
     <div
       id="blog-container"
-      className="bg-gray-900 text-white shadow-xl rounded-lg p-4 mb-5 container group transition-all duration-400"
+      className="bg-gray-900 text-white shadow-xl rounded-lg p-10 mb-5 mx-auto w-3/4 container group transition-all duration-400"
     >
-      <h2 id="blog-name" className="text-lg font-extrabold mb-4">
+      <h2 id="blog-name" className="text-2xl font-extrabold mb-4">
         {props.name}
       </h2>
-      <div className="text-sm mb-4 line-clamp-2 group-hover:line-clamp-none">
+      <div className="text-lg mb-4 line-clamp-2 group-hover:line-clamp-none">
         <div dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }} />
       </div>
       <div className="flex justify-between items-end">

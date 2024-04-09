@@ -40,7 +40,7 @@ const SignUp = ({ auth, addUser }) => {
             value={email}
             placeholder="some@gmail.com"
             onChange={(e) => setEmail(e.target.value)}
-            className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 rounded-md text-black py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
         <label className="block mb-2">
@@ -50,7 +50,7 @@ const SignUp = ({ auth, addUser }) => {
             value={password}
             placeholder="მინ 6 სიმბოლო"
             onChange={(e) => setPassword(e.target.value)}
-            className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 rounded-md text-black py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
         <button

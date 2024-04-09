@@ -22,7 +22,7 @@ const SignIn = ({ auth }) => {
 
   return (
     <div id="sign-in" className="p-4">
-      <fieldset>
+      <fieldset className="b-white text-black dark:b-black dark:text-white">
         <legend className="text-lg font-semibold mb-4">
           ავტორიზაციის განყოფილება
         </legend>
@@ -33,7 +33,7 @@ const SignIn = ({ auth }) => {
             placeholder="შენი იმეილი"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 rounded-md text-black py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
         <label className="block mb-2">
@@ -43,7 +43,7 @@ const SignIn = ({ auth }) => {
             placeholder="შენი პასვორდი"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-300 rounded-md text-black py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </label>
         <button

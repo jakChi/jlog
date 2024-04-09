@@ -20,7 +20,7 @@ const Navbar = ({ userPic, user, auth, setUser }) => {
           src={userPic}
           alt="პროფილის ფოტო"
         />
-        <div className="bg-gray-200 dark:bg-gray-800 absolute -right-full group-hover:right-0 top-0 w-60 h-screen transition-all duration-300 sm:delay-300">
+        <div className="bg-gray-200 dark:bg-gray-800 absolute -right-full group-hover:right-0 top-0 w-94 h-screen transition-all duration-300 sm:delay-300">
           <UserInfo user={user} auth={auth} setUser={setUser} />
         </div>
       </div>

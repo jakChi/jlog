@@ -13,9 +13,7 @@ import {
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import SignOut from "./components/SignOut";
 import BlogList from "./components/BlogList";
-import UserInfo from "./components/UserInfo";
 import Navbar from "./components/Navbar";
 
 const firebaseConfig = {
@@ -40,13 +38,18 @@ const App = () => {
 
   //get data from blogs firestore db and
   async function getBlogs(dataBase) {
-    const q = query(
-      collection(dataBase, "blogs"),
-      orderBy("createdAt", "desc")
-    );
-    const blogSnapshot = await getDocs(q);
-    setBlogList(blogSnapshot.docs.map((doc) => doc.data()));
-    console.log("bloglist has called!", blogList);
+    try {
+      const q = query(
+        collection(dataBase, "blogs"),
+        orderBy("createdAt", "desc")
+      );
+      const blogSnapshot = await getDocs(q);
+      setBlogList(blogSnapshot.docs.map((doc) => doc.data()));
+      console.log("bloglist has called!", blogList);
+    } catch (e) {
+      console.log("something bad happened!");
+      console.error(e);
+    }
   }
 
   const getUsers = async () => {
@@ -90,6 +93,7 @@ const App = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(auth.currentUser);
+        getBlogs(db);
         console.log("auth state listener got called!");
       } else {
         setUser(null);
