@@ -21,6 +21,10 @@ const CreateNew = ({ blogsFunction, user }) => {
         createdAt: Timestamp.fromDate(new Date()),
         author: user.displayName,
         authorUid: user.uid,
+        reactions: [
+          { user: "user1", reaction: "like" },
+          { user: "user2", reaction: "dislike" },
+        ],
       });
 
       setInput("");

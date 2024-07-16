@@ -68,6 +68,7 @@ const App = () => {
         createdAt: data.createdAt,
         author: data.author,
         authorUid: data.authorUid,
+        reactions: data.reactions
       });
       console.log("document added, ID: ", doc.id);
       getBlogs(db);

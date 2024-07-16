@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
 import { marked } from "marked";
+import { useState } from "react";
 
 const Blog = (props) => {
-  //const [feedBack, setFeedBack] = useState(null); რეაქციები ბლოგებზე
+  const [likes, setLikes] = useState(null);
+  const [dislikes, setDislikes] = useState(null);
+  const [reacted, setReacted] = useState(false);
 
   //time from createdAt prop is object from firestore and here we convert it into standard time fromat
   const date = new Date(props.createdAt.seconds * 1000).toLocaleString(
@@ -13,6 +16,11 @@ const Blog = (props) => {
       hour12: false,
     }
   );
+
+  /// აქ უნდა დავუმატო დატას აფდეით ფუნქცია ფაიერსთორიდან  
+  function reactOnPost(type) {
+    type && !reacted ? setLikes(likes + 1) : setDislikes(likes + 1);
+  }
 
   return (
     <div
@@ -37,6 +45,29 @@ const Blog = (props) => {
             {props.author}
           </span>
         </h5>
+      </div>
+      <div className="flex justify-between w-16 mt-4">
+        <div>
+          <button
+            onClick={() => {
+              reactOnPost(true);
+              setReacted(!reacted);
+            }}
+            className={`${reacted ? "text-2xl" : "text-l"}`}
+          >
+            ⬆️
+          </button>
+          <p>{likes}</p>
+        </div>
+        <div>
+          <button
+            onClick={() => { reactOnPost(false);  setReacted(!reacted)}}
+            className={`${reacted ? "text-2xl" : "text-l"}`}
+          >
+            ⬇️
+          </button>
+          <p>{dislikes}</p>
+        </div>
       </div>
     </div>
   );

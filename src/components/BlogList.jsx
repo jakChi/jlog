@@ -14,6 +14,7 @@ const BlogList = ({ blogsData, user }) => {
             author={blog.author}
             authorUid={blog.authorUid}
             uid={user.uid}
+            reactions={blog.reactions}
             key={i}
           />
         ))
