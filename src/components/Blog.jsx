@@ -79,7 +79,7 @@ const Blog = (props) => {
   async function submitComment() {
     try {
       const newComment = {
-        user: props.author,
+        user: props.userName,
         content: comInput,
         createdAt: Timestamp.fromDate(new Date()),
       };
