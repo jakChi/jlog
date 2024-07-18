@@ -5,8 +5,10 @@ import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
+  doc,
   getDocs,
   addDoc,
+  setDoc,
   query,
   orderBy,
 } from "firebase/firestore";
@@ -37,12 +39,9 @@ const App = () => {
   const [userList, setUserList] = useState([]);
 
   //get data from blogs firestore db and
-  async function getBlogs(dataBase) {
+  async function getBlogs() {
     try {
-      const q = query(
-        collection(dataBase, "blogs"),
-        orderBy("createdAt", "desc")
-      );
+      const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
       const blogSnapshot = await getDocs(q);
       setBlogList(blogSnapshot.docs.map((doc) => doc.data()));
       console.log("bloglist has called!", blogList);
@@ -59,18 +58,29 @@ const App = () => {
     console.log("userList has called ", userList);
   };
 
+  // parameters are provided from CreateNew component
   const blogToDb = async (data) => {
     //send data to firestore
+    const docRef = doc(db, "blogs", data.docId);
+
     try {
-      const doc = await addDoc(collection(db, "blogs"), {
-        name: data.name,
-        text: data.text,
-        createdAt: data.createdAt,
-        author: data.author,
-        authorUid: data.authorUid,
-      });
-      console.log("document added, ID: ", doc.id);
-      getBlogs(db);
+      await setDoc(
+        docRef,
+        {
+          name: data.name,
+          text: data.text,
+          createdAt: data.createdAt,
+          author: data.author,
+          authorUid: data.authorUid,
+          likes: data.likes,
+          dislikes: data.dislikes,
+          docId: data.docId,
+        },
+        { merge: true }
+      );
+
+      console.log("document added, ID: ", data.DocId);
+      getBlogs();
     } catch (e) {
       console.error("couldn't add blog to db: ", e);
     }
@@ -109,6 +119,32 @@ const App = () => {
     getUsers();
   }, []);
 
+  // async function addFieldsToExistingDocuments() {
+  //   try {
+  //     const querySnapshot = await getDocs(
+  //       collection(db, "blogs")
+  //     );
+
+  //     querySnapshot.forEach(async (docSnapshot) => {
+  //       const docRef = doc(db, "blogs", docSnapshot.id);
+
+  //       // Add new fields with default values
+  //       const newFields = {
+  //         likes: [],
+  //         dislikes: []
+  //       };
+
+  //       // Update the document
+  //       await updateDoc(docRef, newFields);
+  //       console.log(`Updated document: ${docSnapshot.id}`);
+  //     });
+
+  //     console.log("All documents have been updated.");
+  //   } catch (error) {
+  //     console.error("Error updating documents: ", error);
+  //   }
+  // }
+
   return (
     <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen w-full transition-all">
       {user ? (
@@ -120,8 +156,9 @@ const App = () => {
             auth={auth}
           />
           <main className="w-full mt-16 sm:mt-20">
+            {/* <button onClick={addFieldsToExistingDocuments}>update all</button> */}
             <CreateNew blogsFunction={blogToDb} user={user} />
-            <BlogList blogsData={blogList} user={user} />
+            <BlogList blogsData={blogList} user={user} db={db} />
           </main>
         </div>
       ) : (
