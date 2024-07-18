@@ -44,15 +44,15 @@ const UpdateProf = ({ auth }) => {
   };
 
   return (
-    <>
+    <div className="transition-all duration-300">
       <button
         onClick={() => setView(true)}
-        className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
       >
         დეტალების შეცვლა
       </button>
       {view && (
-        <>
+        <div className="absolute top-full right-0 transition-all duration-1000">
           <button
             onClick={() => setView(false)}
             className="btn bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded-lg ml-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
@@ -86,9 +86,9 @@ const UpdateProf = ({ auth }) => {
               შეცვლა
             </button>
           </div>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
