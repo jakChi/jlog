@@ -23,6 +23,7 @@ const CreateNew = ({ blogsFunction, user }) => {
         authorUid: user.uid,
         likes: [],
         dislikes: [],
+        comments: [],
         docId: `${user.displayName}_${Timestamp.fromDate(new Date())}`,
       });
 
@@ -43,10 +44,9 @@ const CreateNew = ({ blogsFunction, user }) => {
   return editor ? (
     <div
       id="create-blog"
-      className="p-4 mx-auto w-1/2 bg-gray-900 text-white rounded-b-xl"
+      className="p-5 md:h-max md:w-1/2 md:fixed md:top-40 md:left-1/4 bg-gray-800 text-white rounded-xl"
     >
       <label className="block mb-2">
-        სათაური:
         <input
           type="text"
           placeholder="მიუთითე სათაური"
@@ -54,18 +54,17 @@ const CreateNew = ({ blogsFunction, user }) => {
           onChange={(e) => setName(e.target.value)}
           value={name}
           autoComplete="off"
-          className="border border-gray-700 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
+          className="border border-gray-700 rounded-md py-2 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
         />
       </label>
       <label className="block mb-2">
-        ტექსტი:
         <textarea
           id="text-box"
           placeholder="გაგვანდე შენი ფიქრები...😈"
           onChange={handleChange}
           value={input}
           autoComplete="off"
-          className="border border-gray-700 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
+          className="border border-gray-700 rounded-md py-1 px-3 mt-1 w-full h-32 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
         ></textarea>
       </label>
       <h4 className="text-lg font-semibold mb-2">შენი ბლოგი გამოჩნდება ასე:</h4>
@@ -91,6 +90,7 @@ const CreateNew = ({ blogsFunction, user }) => {
         </button>
       </div>
     </div>
+    
   ) : (
     <div className="w-full p-3 mx-auto sm:p-4 sm:w-32 sm:right-14">
       <button

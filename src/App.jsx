@@ -11,6 +11,7 @@ import {
   setDoc,
   query,
   orderBy,
+  updateDoc
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import SignUp from "./components/SignUp";
@@ -74,6 +75,7 @@ const App = () => {
           authorUid: data.authorUid,
           likes: data.likes,
           dislikes: data.dislikes,
+          comments: data.comments,
           docId: data.docId,
         },
         { merge: true }
@@ -130,8 +132,7 @@ const App = () => {
 
   //       // Add new fields with default values
   //       const newFields = {
-  //         likes: [],
-  //         dislikes: []
+  //         comments: [{}]
   //       };
 
   //       // Update the document
