@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 import { marked } from "marked";
-import { useState } from "react";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  onSnapshot,
+  getDoc,
+  arrayRemove,
+} from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 const Blog = (props) => {
-  const [likes, setLikes] = useState(null);
-  const [dislikes, setDislikes] = useState(null);
-  const [reacted, setReacted] = useState(false);
-
   //time from createdAt prop is object from firestore and here we convert it into standard time fromat
   const date = new Date(props.createdAt.seconds * 1000).toLocaleString(
     "ka-GE",
@@ -17,9 +21,50 @@ const Blog = (props) => {
     }
   );
 
-  /// აქ უნდა დავუმატო დატას აფდეით ფუნქცია ფაიერსთორიდან  
-  function reactOnPost(type) {
-    type && !reacted ? setLikes(likes + 1) : setDislikes(likes + 1);
+  const [likes, setLikes] = useState([]);
+  const [dislikes, setDislikes] = useState([]);
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(props.db, "blogs", props.docId), (doc) => {
+      setLikes(doc.data().likes);
+      setDislikes(doc.data().dislikes);
+    });
+
+    return unsub;
+  }, []);
+
+  async function reactOnPost(type) {
+    const docRef = doc(props.db, "blogs", props.docId);
+    const docSnap = await getDoc(docRef);
+
+    try {
+      if (
+        !docSnap.data().likes.includes(props.uid) &&
+        !docSnap.data().dislikes.includes(props.uid)
+      ) {
+        if (type == "like") {
+          await updateDoc(docRef, { likes: arrayUnion(props.uid) });
+          console.log("like reaction added");
+        } else if (type == "dislike") {
+          await updateDoc(docRef, {
+            dislikes: arrayUnion(props.uid),
+          });
+          console.log("dislike reaction added");
+        }
+      } else {
+        if (type == "like") {
+          await updateDoc(docRef, { likes: arrayRemove(props.uid) });
+          console.log("like reaction removed");
+        } else if (type == "dislike") {
+          await updateDoc(docRef, {
+            dislikes: arrayRemove(props.uid),
+          });
+          console.log("dislike reaction removed");
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (
@@ -46,27 +91,30 @@ const Blog = (props) => {
           </span>
         </h5>
       </div>
-      <div className="flex justify-between w-16 mt-4">
-        <div>
+      <div className="flex justify-between w-24 mt-4">
+        <div className="flex">
           <button
             onClick={() => {
-              reactOnPost(true);
-              setReacted(!reacted);
+              reactOnPost("like");
             }}
-            className={`${reacted ? "text-2xl" : "text-l"}`}
+            className={
+              likes.includes(props.uid) ? "text-xl border p-1" : null
+            }
           >
-            ⬆️
+            ⬆️ {likes.length}
           </button>
-          <p>{likes}</p>
         </div>
-        <div>
+        <div className="flex">
           <button
-            onClick={() => { reactOnPost(false);  setReacted(!reacted)}}
-            className={`${reacted ? "text-2xl" : "text-l"}`}
+            onClick={() => {
+              reactOnPost("dislike");
+            }}
+            className={
+              dislikes.includes(props.uid) ? "text-xl border p-1" : null
+            }
           >
-            ⬇️
+            ⬇️ {dislikes.length}
           </button>
-          <p>{dislikes}</p>
         </div>
       </div>
     </div>

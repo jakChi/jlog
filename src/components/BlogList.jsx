@@ -2,7 +2,7 @@
 
 import Blog from "./Blog";
 
-const BlogList = ({ blogsData, user }) => {
+const BlogList = ({ blogsData, user, db }) => {
   return (
     <div id="blog-list" className="p-4 w-screen">
       {blogsData && blogsData.length > 0 ? (
@@ -14,8 +14,11 @@ const BlogList = ({ blogsData, user }) => {
             author={blog.author}
             authorUid={blog.authorUid}
             uid={user.uid}
-            reactions={blog.reactions}
+            likes={blog.likes}
+            dislikes={blog.dislikes}
             key={i}
+            db={db}
+            docId={blog.docId}
           />
         ))
       ) : (
