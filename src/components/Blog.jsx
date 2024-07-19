@@ -95,15 +95,15 @@ const Blog = (props) => {
   }
 
   return (
-    <div className="flex m-10">
+    <div className="flex flex-col md:flex my-5 relative">
       <div
         id="blog-container"
-        className="bg-gray-900 text-white shadow-xl rounded-lg p-10 w-full md:w-3/5 h-max container group transition-all duration-400"
+        className="bg-gray-900 text-white shadow-xl md:rounded-lg rounded-t-lg p-2 py-5 md:p-16 w-full md:w-3/5 h-max container group transition-all duration-400"
       >
-        <h2 id="blog-name" className="text-2xl font-extrabold mb-4">
+        <h2 id="blog-name" className="text-xl md:text-3xl font-extrabold mb-4">
           {props.name}
         </h2>
-        <div className="text-lg mb-4 line-clamp-2 group-hover:line-clamp-none">
+        <div className="text-sm mb-4 line-clamp-2 group-hover:line-clamp-none">
           <div dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }} />
         </div>
         <div className="flex justify-between items-end">
@@ -148,14 +148,17 @@ const Blog = (props) => {
           </div>
         </div>
       </div>
-      <div id="comments-panel" className="w-1/3 mx-10">
-        <button onClick={() => setCommPanel(!commPanel)} className="text-3xl ">
-          💬
+      <div id="comments-panel" className=" md:w-1/3 md:mx-10">
+        <button
+          onClick={() => setCommPanel(true)}
+          className="text-xl md:text-3xl md:relative absolute bottom-6 right-6 "
+        >
+          {commPanel ? null : "💬"}
         </button>
         <div
           className={`${
             commPanel ? "flex" : "hidden"
-          }  w-full p-5 h-max min-h-40 bg-slate-500 rounded-lg flex-col justify-around`}
+          }  w-full md:p-5 p-2 h-max md:min-h-40 min-h-2 bg-gray-900 rounded-b-lg md:rounded-lg flex-col justify-around`}
         >
           <div id="input-filed" className="flex">
             <input
@@ -167,10 +170,17 @@ const Blog = (props) => {
             />
             <button
               type="submit"
-              className="w-1/5 bg-slate-700 h-10 mx-3 p-1 rounded-lg active:bg-slate-600"
+              className="w-10 bg-slate-700 h-10 mx-1 p-1 rounded-lg active:bg-slate-600"
               onClick={submitComment}
             >
               📣
+            </button>
+            <button
+              type="submit"
+              className="w-10 bg-slate-700 h-10 mx-1 p-1 rounded-lg active:bg-slate-600"
+              onClick={() => setCommPanel(false)}
+            >
+              ❌
             </button>
           </div>
           <div id="comment-list">
@@ -186,7 +196,7 @@ const Blog = (props) => {
                   </li>
                 ))
               ) : (
-                <p>ჯერ არაა კომენტარები...</p>
+                <p className="text-xs m-3">ჯერ არაა კომენტარები...</p>
               )}
             </ol>
           </div>
