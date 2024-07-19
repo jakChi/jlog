@@ -36,6 +36,7 @@ const App = () => {
   //app state
   const [user, setUser] = useState(true);
   const [blogList, setBlogList] = useState([]);
+  const [registering, setRegistering] = useState(false);
   //const [userList, setUserList] = useState([]);
 
   // users stuff
@@ -70,12 +71,10 @@ const App = () => {
       );
 
       console.log("document added, ID: ", data.DocId);
-     
     } catch (e) {
       console.error("couldn't add blog to db: ", e);
     }
   };
-
 
   const usersToDb = async (data) => {
     try {
@@ -94,7 +93,7 @@ const App = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(auth.currentUser);
-       
+
         console.log("auth state listener got called!");
       } else {
         setUser(null);
@@ -111,7 +110,6 @@ const App = () => {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const posts = [];
       querySnapshot.forEach((doc) => {
-        
         posts.push(doc.data());
       });
       console.log("Current posts are: ", posts);
@@ -119,7 +117,6 @@ const App = () => {
     });
 
     return unsubscribe;
-
   }, []);
 
   // async function addFieldsToExistingDocuments() {
@@ -164,12 +161,19 @@ const App = () => {
           </main>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-3xl font-bold mb-4">
-            მოგესალმები ბლოგთა სამფლობელოში!
-          </h1>
-          <SignIn auth={auth} />
-          <SignUp auth={auth} addUser={usersToDb} />
+        <div className="flex flex-col h-screen bg-slate-800">
+          <nav className="text-5xl text-center m-10 font-bold">Jlog</nav>
+          <div className="md:w-1/2 md:m-auto">
+            <SignIn auth={auth} />
+
+            {registering ? (
+              <SignUp auth={auth} addUser={usersToDb} />
+            ) : (
+              <button className="m-3 underline" onClick={() => setRegistering(true)}>
+                არ მაქვს ანგარიში
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>

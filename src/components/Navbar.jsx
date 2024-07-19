@@ -3,7 +3,7 @@ import UserInfo from "./UserInfo";
 
 const Navbar = ({ userPic, user, auth, setUser }) => {
   return (
-    <nav className="bg-gray-200 dark:bg-gray-800 fixed top-0 left-0 w-screen h-16 sm:h-20 flex justify-between">
+    <nav className="bg-gray-200 dark:bg-gray-800 fixed top-0 left-0 w-screen h-16 sm:h-20 flex justify-between z-50">
       <header className="px-5 py-4">
         <a
           href="https://github.com/jakChi/jlog"

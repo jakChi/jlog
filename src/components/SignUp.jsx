@@ -30,8 +30,8 @@ const SignUp = ({ auth, addUser }) => {
   return (
     <div id="sign-up" className="p-4">
       <fieldset>
-        <legend className="text-lg font-semibold mb-4">
-          სარეგისტრაციო განყოფილება
+        <legend className="text-2xl font-semibold mb-4">
+          რეგისტრაცია
         </legend>
         <label className="block mb-2">
           იმეილი:

@@ -21,11 +21,8 @@ const SignIn = ({ auth }) => {
   };
 
   return (
-    <div id="sign-in" className="p-4">
+    <div id="sign-in" className="md:p-10 p-3 m-3 border rounded-lg bg-slate-900">
       <fieldset className="b-white text-black dark:b-black dark:text-white">
-        <legend className="text-lg font-semibold mb-4">
-          ავტორიზაციის განყოფილება
-        </legend>
         <label className="block mb-2">
           იმეილი:
           <input

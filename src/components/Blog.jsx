@@ -95,15 +95,15 @@ const Blog = (props) => {
   }
 
   return (
-    <div className="flex flex-col md:flex my-5 relative">
+    <div className="flex flex-col md:flex-row my-5 relative">
       <div
         id="blog-container"
-        className="bg-gray-900 text-white shadow-xl md:rounded-lg rounded-t-lg p-2 py-5 md:p-16 w-full md:w-3/5 h-max container group transition-all duration-400"
+        className="bg-gray-900 text-white shadow-xl md:rounded-lg rounded-t-lg p-2 py-5 md:p-10 w-full md:w-3/5 h-max container group transition-all duration-400"
       >
         <h2 id="blog-name" className="text-xl md:text-3xl font-extrabold mb-4">
           {props.name}
         </h2>
-        <div className="text-sm mb-4 line-clamp-2 group-hover:line-clamp-none">
+        <div className="text-sm md:text-lg mb-4 line-clamp-2 group-hover:line-clamp-none">
           <div dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }} />
         </div>
         <div className="flex justify-between items-end">
@@ -151,7 +151,7 @@ const Blog = (props) => {
       <div id="comments-panel" className=" md:w-1/3 md:mx-10">
         <button
           onClick={() => setCommPanel(true)}
-          className="text-xl md:text-3xl md:relative absolute bottom-6 right-6 "
+          className="text-xl md:text-3xl absolute bottom-6 right-6 md:relative md:m-5"
         >
           {commPanel ? null : "💬"}
         </button>
@@ -164,7 +164,7 @@ const Blog = (props) => {
             <input
               type="text"
               placeholder="დატოვებ კომენტარს? "
-              className="w-4/5 h-10 p-3 text-black rounded-2xl"
+              className="w-4/5 h-10 p-3 mx-1 text-black rounded-2xl"
               onChange={(e) => setComInput(e.target.value)}
               value={comInput}
             />
