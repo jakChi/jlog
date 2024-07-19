@@ -6,12 +6,11 @@ import {
   getFirestore,
   collection,
   doc,
-  getDocs,
   addDoc,
   setDoc,
   query,
   orderBy,
-  updateDoc
+  onSnapshot,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import SignUp from "./components/SignUp";
@@ -37,27 +36,16 @@ const App = () => {
   //app state
   const [user, setUser] = useState(true);
   const [blogList, setBlogList] = useState([]);
-  const [userList, setUserList] = useState([]);
+  //const [userList, setUserList] = useState([]);
 
-  //get data from blogs firestore db and
-  async function getBlogs() {
-    try {
-      const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
-      const blogSnapshot = await getDocs(q);
-      setBlogList(blogSnapshot.docs.map((doc) => doc.data()));
-      console.log("bloglist has called!", blogList);
-    } catch (e) {
-      console.log("something bad happened!");
-      console.error(e);
-    }
-  }
+  // users stuff
 
-  const getUsers = async () => {
-    const docRef = collection(db, "users");
-    const userSnapshot = await getDocs(docRef);
-    setUserList(userSnapshot.docs.map((doc) => doc.data()));
-    console.log("userList has called ", userList);
-  };
+  // const getUsers = async () => {
+  //   const docRef = collection(db, "users");
+  //   const userSnapshot = await getDocs(docRef);
+  //   setUserList(userSnapshot.docs.map((doc) => doc.data()));
+  //   console.log("userList has called ", userList);
+  // };
 
   // parameters are provided from CreateNew component
   const blogToDb = async (data) => {
@@ -82,11 +70,12 @@ const App = () => {
       );
 
       console.log("document added, ID: ", data.DocId);
-      getBlogs();
+     
     } catch (e) {
       console.error("couldn't add blog to db: ", e);
     }
   };
+
 
   const usersToDb = async (data) => {
     try {
@@ -105,7 +94,7 @@ const App = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(auth.currentUser);
-        getBlogs(db);
+       
         console.log("auth state listener got called!");
       } else {
         setUser(null);
@@ -117,8 +106,20 @@ const App = () => {
   //gets blogs for the first time of app load
   useEffect(() => {
     monitorAuthState();
-    getBlogs(db);
-    getUsers();
+
+    const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const posts = [];
+      querySnapshot.forEach((doc) => {
+        
+        posts.push(doc.data());
+      });
+      console.log("Current posts are: ", posts);
+      setBlogList(posts);
+    });
+
+    return unsubscribe;
+
   }, []);
 
   // async function addFieldsToExistingDocuments() {
