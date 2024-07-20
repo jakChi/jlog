@@ -44,7 +44,7 @@ const CreateNew = ({ blogsFunction, user }) => {
   return editor ? (
     <div
       id="create-blog"
-      className="p-5 md:h-max md:w-1/2 md:fixed md:top-40 md:left-1/4 bg-gray-800 text-white rounded-xl"
+      className="p-5 md:h-max md:w-1/2 md:fixed md:z-30 md:top-40 md:left-1/4 bg-gray-800 text-white rounded-xl"
     >
       <label className="block mb-2">
         <input

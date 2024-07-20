@@ -121,14 +121,14 @@ const Blog = (props) => {
             </span>
           </h5>
         </div>
-        <div className="flex justify-between w-24 mt-4">
-          <div className="flex">
+        <div id="post-activity" className="flex justify-between w-max mt-4">
+          <div className="flex mx-2">
             <button
               onClick={() => {
                 reactOnPost("like");
               }}
               className={
-                likes.includes(props.uid) ? "text-xl border p-1" : null
+                likes.includes(props.uid) ? "text-xl" : "text-slate-600"
               }
             >
               ⬆️ {likes.length}
@@ -140,12 +140,15 @@ const Blog = (props) => {
                 reactOnPost("dislike");
               }}
               className={
-                dislikes.includes(props.uid) ? "text-xl border p-1" : null
+                dislikes.includes(props.uid) ? "text-xl" : "text-slate-600"
               }
             >
               ⬇️ {dislikes.length}
             </button>
           </div>
+          <button className="m-4" onClick={() => setCommPanel(true)}>
+            💬 {comments.length}
+          </button>
         </div>
       </div>
       <div id="comments-panel" className=" md:w-1/3 md:mx-10">
