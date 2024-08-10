@@ -103,7 +103,7 @@ const Blog = (props) => {
         <h2 id="blog-name" className="text-xl md:text-3xl font-extrabold mb-4">
           {props.name}
         </h2>
-        <div className="text-sm md:text-lg mb-4 line-clamp-2 group-hover:line-clamp-none">
+        <div className="text-sm md:text-lg mb-4 overflow-scroll">
           <div dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }} />
         </div>
         <div className="flex justify-between items-end">

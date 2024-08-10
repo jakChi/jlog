@@ -161,7 +161,7 @@ const App = () => {
           </main>
         </div>
       ) : (
-        <div className="flex flex-col h-screen bg-slate-800">
+        <div className="flex flex-col h-screen bg-slate-400">
           <nav className="text-5xl text-center m-10 font-bold">Jlog</nav>
           <div className="md:w-1/2 md:m-auto">
             <SignIn auth={auth} />
