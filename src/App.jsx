@@ -93,7 +93,6 @@ const App = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(auth.currentUser);
-
         console.log("auth state listener got called!");
       } else {
         setUser(null);
@@ -117,7 +116,7 @@ const App = () => {
     });
 
     return unsubscribe;
-  }, []);
+  }, [user]);
 
   // async function addFieldsToExistingDocuments() {
   //   try {
