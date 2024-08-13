@@ -73,9 +73,6 @@ function ThemeSwitch() {
           </span>
         </span>
       </Switch>
-      <p className="absolute -top-10 peer-hover:-top-16 -left-16 w-40 border rounded-xl text-center opacity-0 peer-hover:opacity-100 transition-all duration-300">
-        შეცვალე დღისა და ღამის რეჟიმი
-      </p>
     </div>
   );
 }

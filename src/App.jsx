@@ -6,17 +6,17 @@ import {
   getFirestore,
   collection,
   doc,
-  addDoc,
   setDoc,
   query,
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import SignUp from "./components/SignUp";
+
 import SignIn from "./components/SignIn";
 import BlogList from "./components/BlogList";
 import Navbar from "./components/Navbar";
+import SignUpComponent from "./components/SignUpComponent";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAawNCaqR1mwc1UvSwhAJlWYk6AGj9Z1rg",
@@ -36,13 +36,14 @@ const App = () => {
   //app state
   const [user, setUser] = useState(true);
   const [blogList, setBlogList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const [registering, setRegistering] = useState(false);
-  //const [userList, setUserList] = useState([]);
+  // const [userList, setUserList] = useState([]);
 
   // users stuff
-
   // const getUsers = async () => {
   //   const docRef = collection(db, "users");
+
   //   const userSnapshot = await getDocs(docRef);
   //   setUserList(userSnapshot.docs.map((doc) => doc.data()));
   //   console.log("userList has called ", userList);
@@ -50,8 +51,6 @@ const App = () => {
 
   // parameters are provided from CreateNew component
   const blogToDb = async (data) => {
-    setBlogList([]); // roca davadgam Sheqmnas tavidan state waishleba mere ro chavardeba posti datashi iqidan avtomaturad gamoigzavneba data
-
     //send data to firestore
     const docRef = doc(db, "blogs", data.docId);
 
@@ -78,18 +77,6 @@ const App = () => {
     }
   };
 
-  const usersToDb = async (data) => {
-    try {
-      const doc = await addDoc(collection(db, "users"), {
-        uid: data.uid,
-        email: data.email,
-      });
-      console.log("doc/user added: ", doc.id);
-    } catch (e) {
-      console.error("couldn't add current user: ", e);
-    }
-  };
-
   // when user authentification changes this listenner gets called
   const monitorAuthState = () => {
     onAuthStateChanged(auth, (user) => {
@@ -107,8 +94,10 @@ const App = () => {
   useEffect(() => {
     monitorAuthState();
 
-    const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const postsQ = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
+    //const usersQ = query(collection(db, "users"), orderBy("userName", "asc"));
+
+    const postsObserver = onSnapshot((postsQ), (querySnapshot) => {
       const posts = [];
       querySnapshot.forEach((doc) => {
         posts.push(doc.data());
@@ -117,9 +106,10 @@ const App = () => {
       setBlogList(posts);
     });
 
-    return unsubscribe;
+    return postsObserver;
   }, [user]);
 
+  //this function can change all the documents at the same time
   // async function addFieldsToExistingDocuments() {
   //   try {
   //     const querySnapshot = await getDocs(
@@ -155,27 +145,20 @@ const App = () => {
             setUser={setUser}
             auth={auth}
           />
-          <main className="w-full mt-16 sm:mt-20">
+          <main className="w-full flex flex-col md:flex-row mt-16 sm:mt-20">
             {/* <button onClick={addFieldsToExistingDocuments}>update all</button> */}
             <CreateNew blogsFunction={blogToDb} user={user} />
-            <BlogList blogsData={blogList} user={user} db={db} />
+            <BlogList blogsData={blogList} usersData={userList} user={user} db={db} />
           </main>
         </div>
       ) : (
         <div className="flex flex-col h-screen bg-slate-400">
           <nav className="text-5xl text-center m-10 font-bold">Jlog</nav>
           <div className="md:w-1/2 md:m-auto">
-            <SignIn auth={auth} />
-
             {registering ? (
-              <SignUp auth={auth} addUser={usersToDb} />
+              <SignUpComponent auth={auth} db={db} />
             ) : (
-              <button
-                className="m-3 underline"
-                onClick={() => setRegistering(true)}
-              >
-                არ მაქვს ანგარიში
-              </button>
+              <SignIn auth={auth} onSignUpClick={() => setRegistering(true)} />
             )}
           </div>
         </div>

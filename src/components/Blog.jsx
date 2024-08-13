@@ -45,25 +45,25 @@ const Blog = (props) => {
 
     try {
       if (
-        !docSnap.data().likes.includes(props.uid) &&
-        !docSnap.data().dislikes.includes(props.uid)
+        !docSnap.data().likes.includes(props.currentUser.uid) &&
+        !docSnap.data().dislikes.includes(props.currentUser.uid)
       ) {
         if (type == "like") {
-          await updateDoc(docRef, { likes: arrayUnion(props.uid) });
+          await updateDoc(docRef, { likes: arrayUnion(props.currentUser.uid) });
           console.log("like reaction added");
         } else if (type == "dislike") {
           await updateDoc(docRef, {
-            dislikes: arrayUnion(props.uid),
+            dislikes: arrayUnion(props.currentUser.uid),
           });
           console.log("dislike reaction added");
         }
       } else {
         if (type == "like") {
-          await updateDoc(docRef, { likes: arrayRemove(props.uid) });
+          await updateDoc(docRef, { likes: arrayRemove(props.currentUser.uid) });
           console.log("like reaction removed");
         } else if (type == "dislike") {
           await updateDoc(docRef, {
-            dislikes: arrayRemove(props.uid),
+            dislikes: arrayRemove(props.currentUser.uid),
           });
           console.log("dislike reaction removed");
         }
@@ -79,7 +79,7 @@ const Blog = (props) => {
   async function submitComment() {
     try {
       const newComment = {
-        user: props.userName,
+        user: props.currentUser.displayName,
         content: comInput,
         createdAt: Timestamp.fromDate(new Date()),
       };
@@ -94,119 +94,143 @@ const Blog = (props) => {
     }
   }
 
+
+
   return (
     <div className="flex flex-col md:flex-row my-5 relative">
-      <div
-        id="blog-container"
-        className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:p-10 w-full md:w-3/5 h-max container group transition-all duration-400"
-      >
-        <h2 id="blog-name" className="text-xl md:text-3xl font-extrabold mb-4">
-          {props.name}
-        </h2>
-        <div className="text-sm md:text-lg mb-4 overflow-scroll">
-          <div dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }} />
-        </div>
-        <div className="flex justify-between items-end my-5">
-          <h5 className="text-xs text-gray-500">{date}</h5>
-          <h5 className="text-xs text-gray-500">
-            ავტორი:{" "}
-            <span
-              className={
-                props.authorUid === props.uid
-                  ? "text-green-600 font-bold"
-                  : "text-gray-700"
-              }
-            >
-              {props.author}
-            </span>
-          </h5>
-        </div>
-        <div id="post-activity" className="flex justify-between w-max mt-4">
-          <div className="flex mx-2">
-            <button
-              onClick={() => {
-                reactOnPost("like");
-              }}
-              className={
-                likes.includes(props.uid) ? "text-xl" : "text-slate-600"
-              }
-            >
-              ⬆️ {likes.length}
-            </button>
-          </div>
-          <div className="flex">
-            <button
-              onClick={() => {
-                reactOnPost("dislike");
-              }}
-              className={
-                dislikes.includes(props.uid) ? "text-xl" : "text-slate-600"
-              }
-            >
-              ⬇️ {dislikes.length}
-            </button>
-          </div>
-          <button className="m-4" onClick={() => setCommPanel(true)}>
-            💬 {comments.length}
-          </button>
-        </div>
-      </div>
-      <div id="comments-panel" className=" md:w-1/3 md:mx-10">
-        <button
-          onClick={() => setCommPanel(true)}
-          className="text-xl md:text-3xl absolute bottom-6 right-6 md:relative md:m-5"
-        >
-          {commPanel ? null : "💬"}
-        </button>
+      {!commPanel ? (
         <div
-          className={`${
-            commPanel ? "absolute" : "hidden"
-          } top-2/3 md:top-0 w-full md:w-1/3 md:p-5 p-2 h-max md:min-h-40 dark:bg-gray-900 bg-slate-300 rounded-b-lg md:rounded-lg flex-col justify-around z-20 border border-slate-400 border-t-0 md:border-t`}
+          id="blog-container"
+          className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:m-auto md:p-10 w-full md:w-4/5 h-max container group transition-all duration-400"
         >
-          <div id="input-filed" className="flex">
-            <input
-              type="text"
-              placeholder="დატოვებ კომენტარს? "
-              className="w-4/5 h-10 p-3 mx-1 text-black rounded-2xl"
-              onChange={(e) => setComInput(e.target.value)}
-              value={comInput}
+          <div className="flex items-center mb-5">
+            <h2 id="blog-name" className="text-xl md:text-4xl font-extrabold ">
+              {props.name}
+            </h2>
+          </div>
+          {/* agar mushaobs formateri ratomgac */}
+          <div className="text-sm md:text-lg mb-4 overflow-scroll text-pretty">
+            <div
+              dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }}
             />
-            <button
-              type="submit"
-              className="w-10  dark:bg-slate-700 bg-slate-400 h-10 mx-1 p-1 rounded-lg active:bg-slate-300"
-              onClick={submitComment}
-            >
-              📣
-            </button>
-            <button
-              type="submit"
-              className="w-10 dark:bg-slate-700 bg-slate-400 h-10 mx-1 p-1 rounded-lg active:bg-slate-300"
-              onClick={() => setCommPanel(false)}
-            >
-              ❌
+          </div>
+          <div className="flex justify-between items-center my-5">
+            <h5 className="text-xs md:text-base text-gray-500">{date}</h5>
+            <div className="flex items-center">
+              <h5 className=" text-gray-500 text-xs md:text-base">Author:</h5>
+              <div className="mx-3 w-8 md:w-12 h-8 md:h-12 rounded-full overflow-hidden border-2 border-indigo-700">
+                <img
+                  src={props.currentUser.photoURL}
+                  alt="user"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+          <div id="post-activity" className="flex justify-between w-max mt-4">
+            <div className="flex mx-2">
+              <button
+                onClick={() => {
+                  reactOnPost("like");
+                }}
+                className={
+                  likes.includes(props.currentUser.uid)
+                    ? "text-xl"
+                    : "text-slate-600"
+                }
+              >
+                ⬆️ {likes.length}
+              </button>
+            </div>
+            <div className="flex">
+              <button
+                onClick={() => {
+                  reactOnPost("dislike");
+                }}
+                className={
+                  dislikes.includes(props.currentUser.uid)
+                    ? "text-xl"
+                    : "text-slate-600"
+                }
+              >
+                ⬇️ {dislikes.length}
+              </button>
+            </div>
+            <button className="m-4" onClick={() => setCommPanel(true)}>
+              💬 {comments.length}
             </button>
           </div>
-          <div id="comment-list">
+        </div>
+      ) : (
+        <div className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:p-10 md:m-auto w-full md:w-4/5 h-max container group transition-all duration-400">
+          <div id="post-part">
+            <h2
+              id="blog-name"
+              className="text-xl md:text-3xl font-extrabold mb-4"
+            >
+              {props.name}
+            </h2>
+            <div className="text-sm md:text-lg mb-4 overflow-x-scroll line-clamp-1">
+              <div
+                dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }}
+              />
+            </div>
+          </div>
+          <hr />
+          <div id="comment-list" className="m-auto my-10 md:w-2/3">
             <ol>
               {comments.length ? (
                 comments.map((comment, i) => (
                   <li
                     key={i}
-                    className="my-3 p-2 dark:bg-slate-800 bg-slate-100 dark:text-white text-black rounded-2xl text-sm"
+                    className="w-full my-3 p-2 dark:bg-slate-800 bg-slate-100 dark:text-white text-black rounded-2xl text-xs md:text-sm text-pretty break-words border dark:border-slate-300 border-slate-600"
                   >
-                    <span className="dark:text-green-400 text-green-600">
+                    <span
+                      className={`${
+                        comment.user === props.userName
+                          ? "dark:text-green-600 text-green-800"
+                          : "text-orange-700"
+                      } font-bold`}
+                    >
                       {comment.user}:
                     </span>{" "}
                     {comment.content}
                   </li>
                 ))
               ) : (
-                <p className="text-xs m-3 ">ჯერ არაა კომენტარები...</p>
+                <p className="w-full my-1 p-2 dark:bg-slate-800 bg-slate-100 dark:text-white text-black rounded-2xl text-xs border dark:border-slate-300 border-slate-600">
+                  {"No comments yet :("}
+                </p>
               )}
             </ol>
           </div>
+          <div id="input-filed" className="flex justify-around">
+            <input
+              type="text"
+              placeholder="Ready to Fight?"
+              className="w-4/5 h-10 p-3 mx-1 text-black rounded-2xl text-xs"
+              onChange={(e) => setComInput(e.target.value)}
+              value={comInput}
+            />
+            <div>
+              <button
+                type="submit"
+                className="w-10  dark:bg-slate-700 bg-slate-400 hover:bg-slate-500 h-10 mx-1 p-1 rounded-lg active:bg-slate-300"
+                onClick={submitComment}
+              >
+                📣
+              </button>
+              <button
+                type="submit"
+                className="w-10 dark:bg-slate-700 bg-slate-400 hover:bg-slate-500 h-10 mx-1 p-1 rounded-lg active:bg-slate-300"
+                onClick={() => setCommPanel(false)}
+              >
+                ❌
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

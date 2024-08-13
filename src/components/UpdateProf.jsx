@@ -16,7 +16,7 @@ const UpdateProf = ({ auth }) => {
           setUserName(""); // input field gets cleared
           setView(false); // if user types photo link then input fields will close
           alert(
-            "ფსევდონიმი შეცვლილია, შეგიძლია დაარეფრეშო გვერდი ცვლილების სანახავად!"
+            "Username has Changed, Refresh the page to see it"
           );
           console.log("profile updated!");
         })
@@ -32,61 +32,62 @@ const UpdateProf = ({ auth }) => {
           setView(false); // if user types photo link then input fields will close
           console.log("profile updated!");
           alert(
-            "პროფილის ფოტო შეცვლილია, შეგიძლია დაარეფრეშო გვერდი ცვლილების სანახავად!"
+            "Profile picture has Changed! Refresh the page to see it"
           );
         })
         .catch((error) => {
           console.log("error occured!", error);
         });
     } else {
-      alert("მიუთითე ფსევდონიმი და პროფილის ფოტო თორემ არ შევცვლი!");
+      alert("Add Username or Profile picture first");
     }
   };
 
   return (
-    <div className="transition-all duration-300">
-      <button
-        onClick={() => setView(true)}
-        className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
-      >
-        დეტალების შეცვლა
-      </button>
-      {view && (
-        <div className="absolute top-full right-0 transition-all duration-1000">
-          <button
-            onClick={() => setView(false)}
-            className="btn bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded-lg ml-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
-          >
-            გაუქმება
-          </button>
+    <div>
+      {view ? (
+        <div className="absolute top-full right-0 md:p-10 p-5 transition-all duration-1000 dark:bg-slate-900 bg-slate-300 dark:text-white text-black rounded-3xl">
           <div className="update-profile">
             <label className="block mb-2">
-              ახალი ფსევდონიმი:
+              New Username:
               <input
                 type="name"
                 value={userName}
-                placeholder="ვლად-დრაკულა666"
+                placeholder="drakula-666"
                 onChange={(e) => setUserName(e.target.value)}
-                className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 text-black rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </label>
             <label className="block mb-2">
-              ახალი ფოტო:
+              New Profile Picture
               <input
                 type="text"
-                placeholder="ჩააკოპირე ფოტოს ლინკი"
+                placeholder="paste new URL"
                 onChange={(e) => setUserPic(e.target.value)}
-                className="border border-gray-300 rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 text-black rounded-md py-1 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </label>
             <button
               onClick={changeUserName}
               className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              შეცვლა
+              Do it!
+            </button>
+            <button
+              onClick={() => setView(false)}
+              className="btn bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded-lg ml-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
+            >
+              Cancel
             </button>
           </div>
         </div>
+      ) : (
+        <button
+          onClick={() => setView(true)}
+          className="btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
+        >
+          Change User Info
+        </button>
       )}
     </div>
   );

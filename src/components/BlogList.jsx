@@ -2,9 +2,9 @@
 
 import Blog from "./Blog";
 
-const BlogList = ({ blogsData, user, db }) => {
+const BlogList = ({ blogsData, usersData, user, db }) => {
   return (
-    <div id="blog-list" className="p-4 w-screen">
+    <div id="blog-list" className="p-4 w-screen md:w-2/3">
       {blogsData && blogsData.length > 0 ? (
         blogsData.map((blog, i) => (
           <Blog
@@ -13,8 +13,8 @@ const BlogList = ({ blogsData, user, db }) => {
             createdAt={blog.createdAt}
             author={blog.author}
             authorUid={blog.authorUid}
-            uid={user.uid}
-            userName={user.displayName}
+            currentUser={user}
+            users={usersData}
             likes={blog.likes}
             dislikes={blog.dislikes}
             comments={blog.comments}
@@ -24,7 +24,7 @@ const BlogList = ({ blogsData, user, db }) => {
           />
         ))
       ) : (
-        <p className="text-gray-500">there are no blogs yet!</p>
+          <p className="text-gray-500 text-center my-10">Loading data...</p>
       )}
     </div>
   );
