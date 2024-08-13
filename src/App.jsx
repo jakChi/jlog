@@ -50,6 +50,8 @@ const App = () => {
 
   // parameters are provided from CreateNew component
   const blogToDb = async (data) => {
+    setBlogList([]); // roca davadgam Sheqmnas tavidan state waishleba mere ro chavardeba posti datashi iqidan avtomaturad gamoigzavneba data
+
     //send data to firestore
     const docRef = doc(db, "blogs", data.docId);
 
@@ -168,7 +170,10 @@ const App = () => {
             {registering ? (
               <SignUp auth={auth} addUser={usersToDb} />
             ) : (
-              <button className="m-3 underline" onClick={() => setRegistering(true)}>
+              <button
+                className="m-3 underline"
+                onClick={() => setRegistering(true)}
+              >
                 არ მაქვს ანგარიში
               </button>
             )}

@@ -98,7 +98,7 @@ const Blog = (props) => {
     <div className="flex flex-col md:flex-row my-5 relative">
       <div
         id="blog-container"
-        className="bg-gray-900 text-white shadow-xl md:rounded-lg rounded-t-lg p-2 py-5 md:p-10 w-full md:w-3/5 h-max container group transition-all duration-400"
+        className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:p-10 w-full md:w-3/5 h-max container group transition-all duration-400"
       >
         <h2 id="blog-name" className="text-xl md:text-3xl font-extrabold mb-4">
           {props.name}
@@ -106,15 +106,15 @@ const Blog = (props) => {
         <div className="text-sm md:text-lg mb-4 overflow-scroll">
           <div dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }} />
         </div>
-        <div className="flex justify-between items-end">
-          <h5 className="text-xs text-gray-400">{date}</h5>
-          <h5 className="text-xs text-gray-400">
+        <div className="flex justify-between items-end my-5">
+          <h5 className="text-xs text-gray-500">{date}</h5>
+          <h5 className="text-xs text-gray-500">
             ავტორი:{" "}
             <span
               className={
                 props.authorUid === props.uid
-                  ? "text-green-400"
-                  : "text-gray-400"
+                  ? "text-green-600 font-bold"
+                  : "text-gray-700"
               }
             >
               {props.author}
@@ -160,8 +160,8 @@ const Blog = (props) => {
         </button>
         <div
           className={`${
-            commPanel ? "flex" : "hidden"
-          }  w-full md:p-5 p-2 h-max md:min-h-40 min-h-2 bg-gray-900 rounded-b-lg md:rounded-lg flex-col justify-around`}
+            commPanel ? "absolute" : "hidden"
+          } top-2/3 md:top-0 w-full md:w-1/3 md:p-5 p-2 h-max md:min-h-40 dark:bg-gray-900 bg-slate-300 rounded-b-lg md:rounded-lg flex-col justify-around z-20 border border-slate-400 border-t-0 md:border-t`}
         >
           <div id="input-filed" className="flex">
             <input
@@ -173,14 +173,14 @@ const Blog = (props) => {
             />
             <button
               type="submit"
-              className="w-10 bg-slate-700 h-10 mx-1 p-1 rounded-lg active:bg-slate-600"
+              className="w-10  dark:bg-slate-700 bg-slate-400 h-10 mx-1 p-1 rounded-lg active:bg-slate-300"
               onClick={submitComment}
             >
               📣
             </button>
             <button
               type="submit"
-              className="w-10 bg-slate-700 h-10 mx-1 p-1 rounded-lg active:bg-slate-600"
+              className="w-10 dark:bg-slate-700 bg-slate-400 h-10 mx-1 p-1 rounded-lg active:bg-slate-300"
               onClick={() => setCommPanel(false)}
             >
               ❌
@@ -192,14 +192,16 @@ const Blog = (props) => {
                 comments.map((comment, i) => (
                   <li
                     key={i}
-                    className="my-3 p-2 bg-slate-800 rounded-2xl text-sm"
+                    className="my-3 p-2 dark:bg-slate-800 bg-slate-100 dark:text-white text-black rounded-2xl text-sm"
                   >
-                    <span className="text-green-400">{comment.user}:</span>{" "}
+                    <span className="dark:text-green-400 text-green-600">
+                      {comment.user}:
+                    </span>{" "}
                     {comment.content}
                   </li>
                 ))
               ) : (
-                <p className="text-xs m-3">ჯერ არაა კომენტარები...</p>
+                <p className="text-xs m-3 ">ჯერ არაა კომენტარები...</p>
               )}
             </ol>
           </div>

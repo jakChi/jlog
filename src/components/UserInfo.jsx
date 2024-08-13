@@ -14,9 +14,7 @@ const UserInfo = ({ user, auth, setUser }) => {
             alt="პროფილის ფოტო"
           />
         </div>
-        <h5 className="text-xs font-semibold">
-          უნიკალური: <span className="text-blue-500">{user.uid}</span>
-        </h5>
+      
         <h5 className="text-xs font-semibold">
           ფსევდონიმი:{" "}
           <span className="text-blue-500">

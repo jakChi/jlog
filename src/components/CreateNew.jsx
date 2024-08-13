@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Timestamp } from "firebase/firestore";
-import { marked } from "marked";
+// import { marked } from "marked";
 
 const CreateNew = ({ blogsFunction, user }) => {
   const [editor, setEditor] = useState(false);
@@ -44,7 +44,7 @@ const CreateNew = ({ blogsFunction, user }) => {
   return editor ? (
     <div
       id="create-blog"
-      className="p-5 md:h-max md:w-1/2 md:fixed md:z-30 md:top-40 md:left-1/4 bg-gray-800 text-white rounded-xl"
+      className="p-5 md:h-max md:w-1/2 md:fixed md:z-30 md:top-40 md:left-1/4 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
     >
       <label className="block mb-2">
         <input
@@ -54,7 +54,7 @@ const CreateNew = ({ blogsFunction, user }) => {
           onChange={(e) => setName(e.target.value)}
           value={name}
           autoComplete="off"
-          className="border border-gray-700 rounded-md py-2 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
+          className="border border-gray-700 rounded-md py-2 px-3 mt-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 bg-gray-400 placeholder:text-gray-600"
         />
       </label>
       <label className="block mb-2">
@@ -64,15 +64,15 @@ const CreateNew = ({ blogsFunction, user }) => {
           onChange={handleChange}
           value={input}
           autoComplete="off"
-          className="border border-gray-700 rounded-md py-1 px-3 mt-1 w-full h-32 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
+          className="border border-gray-700 rounded-md py-1 px-3 mt-1 w-full h-32 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 bg-gray-400 placeholder:text-gray-600"
         ></textarea>
       </label>
-      <h4 className="text-lg font-semibold mb-2">შენი ბლოგი გამოჩნდება ასე:</h4>
+      {/* <h4 className="text-lg font-semibold mb-2">შენი ბლოგი გამოჩნდება ასე:</h4>
       <div
         id="blog-preview"
         dangerouslySetInnerHTML={{ __html: marked.parse(input) }}
         className="border border-gray-700 rounded-md p-2 mb-4 bg-gray-800"
-      />
+      /> */}
       <div id="create-btns">
         <button
           id="create"
@@ -90,15 +90,14 @@ const CreateNew = ({ blogsFunction, user }) => {
         </button>
       </div>
     </div>
-    
   ) : (
-    <div className="w-full p-3 mx-auto sm:p-4 sm:w-32 sm:right-14">
+    <div className="relative sm:fixed top-5 sm:z-30 mx-auto w-fit  sm:left-44">
       <button
         title="create blog"
         onClick={() => setEditor(true)}
-        className="bg-blue-500 hover:bg-blue-600 text-white text-3xl font-extrabold block p-3 py-1 mx-auto rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="bg-green-600 hover:bg-green-500 text-white sm:text-lg text-sm font-medium block p-5 py-2 w-full rounded-lg focus:outline-none transition-colors duration-300"
       >
-        +
+        დაწერე რამე
       </button>
     </div>
   );
