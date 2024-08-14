@@ -112,7 +112,9 @@ const CreateNew = ({ blogsFunction, user }) => {
   ) : (
     <button
       title="create blog"
-      onClick={() => setEditor(true)}
+      onClick={() =>
+        user !== "Guest" ? setEditor(true) : alert("you need to Log In first")
+      }
       className="p-1 md:p-2 md:fixed md:top-5 md:left-44 md:z-30 md:rounded-lg bg-green-600 hover:bg-green-700 text-white sm:text-lg text-sm font-medium"
     >
       Create New Post

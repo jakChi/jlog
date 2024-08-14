@@ -36,8 +36,8 @@ const App = () => {
   //app state
   const [user, setUser] = useState(true);
   const [blogList, setBlogList] = useState([]);
-  const [userList, setUserList] = useState([]);
-  const [registering, setRegistering] = useState(false);
+  // const [userList, setUserList] = useState([]);
+  // const [registering, setRegistering] = useState(false);
   // const [userList, setUserList] = useState([]);
 
   // users stuff
@@ -97,12 +97,11 @@ const App = () => {
     const postsQ = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
     //const usersQ = query(collection(db, "users"), orderBy("userName", "asc"));
 
-    const postsObserver = onSnapshot((postsQ), (querySnapshot) => {
+    const postsObserver = onSnapshot(postsQ, (querySnapshot) => {
       const posts = [];
       querySnapshot.forEach((doc) => {
         posts.push(doc.data());
       });
-      console.log("Current posts are: ", posts);
       setBlogList(posts);
     });
 
@@ -137,32 +136,23 @@ const App = () => {
 
   return (
     <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen w-full transition-all">
-      {user ? (
-        <div>
-          <Navbar
-            userPic={user.photoURL}
-            user={user}
-            setUser={setUser}
-            auth={auth}
+      <div>
+        <Navbar
+          user={user ? user : "Guest"}
+          setUser={setUser}
+          auth={auth}
+          db={db}
+        />
+        <main className="w-full flex flex-col md:flex-row mt-16 sm:mt-20">
+          {/* <button onClick={addFieldsToExistingDocuments}>update all</button> */}
+          <CreateNew blogsFunction={blogToDb} user={user ? user : "Guest"} />
+          <BlogList
+            blogsData={blogList}
+            user={user ? user : "Guest"}
+            db={db}
           />
-          <main className="w-full flex flex-col md:flex-row mt-16 sm:mt-20">
-            {/* <button onClick={addFieldsToExistingDocuments}>update all</button> */}
-            <CreateNew blogsFunction={blogToDb} user={user} />
-            <BlogList blogsData={blogList} usersData={userList} user={user} db={db} />
-          </main>
-        </div>
-      ) : (
-        <div className="flex flex-col h-screen bg-slate-400">
-          <nav className="text-5xl text-center m-10 font-bold">Jlog</nav>
-          <div className="md:w-1/2 md:m-auto">
-            {registering ? (
-              <SignUpComponent auth={auth} db={db} />
-            ) : (
-              <SignIn auth={auth} onSignUpClick={() => setRegistering(true)} />
-            )}
-          </div>
-        </div>
-      )}
+        </main>
+      </div>
     </div>
   );
 };

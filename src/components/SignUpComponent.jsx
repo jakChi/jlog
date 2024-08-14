@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 
-const SignUpComponent = ({ auth, db }) => {
+const SignUpComponent = ({ auth, db, loadingState }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
@@ -13,7 +13,8 @@ const SignUpComponent = ({ auth, db }) => {
   const [error, setError] = useState(null);
 
   const signUp = async () => {
-    setLoading(true);
+    setLoading(true); // for localState
+    loadingState(true); // for navbar state
     setError(null);
 
     try {
@@ -37,16 +38,15 @@ const SignUpComponent = ({ auth, db }) => {
         profilePicUrl,
         email,
         password,
-        
       });
 
       console.log("User signed up and profile updated");
     } catch (error) {
       setError(error.message);
       console.error("Error signing up:", error);
-      
     } finally {
       setLoading(false);
+      loadingState(false); // for navbar
     }
   };
 
@@ -56,8 +56,8 @@ const SignUpComponent = ({ auth, db }) => {
   };
 
   return (
-    <div className="text-black flex flex-col md:p-8 p-3 md:max-w-md w-[90%] mx-auto bg-gradient-to-br from-pink-900 to-blue-800 rounded-xl shadow-lg">
-      <h2 className="text-4xl font-bold text-center text-violet-500 mb-6 drop-shadow-md">
+    <div className="md:absolute md:top-24 md:right-16 md:p-8 p-3 md:w-1/4 dark:bg-slate-700 bg-slate-200 text-black rounded-xl shadow-2xl">
+      <h2 className="text-4xl font-bold text-center text-blue-400 mb-6 drop-shadow-md">
         Sign Up
       </h2>
       <form onSubmit={handleSubmit}>

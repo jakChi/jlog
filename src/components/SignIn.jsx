@@ -2,7 +2,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 
-const SignIn = ({ auth, onSignUpClick }) => {
+const SignIn = ({ auth, signUpLink, loadingState }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -15,6 +15,7 @@ const SignIn = ({ auth, onSignUpClick }) => {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        loadingState(false);
         console.log("user signed in: ", user);
       })
       .catch((error) => {
@@ -26,12 +27,13 @@ const SignIn = ({ auth, onSignUpClick }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     signInMethod();
+    loadingState(true);
   };
 
   return (
     <div
       id="sign-in"
-      className="text-black md:p-8 p-3 md:max-w-md w-[90%] mx-auto bg-gradient-to-tl from-pink-900 to-blue-800 rounded-xl shadow-2xl"
+      className="md:absolute md:top-24 md:right-16 md:p-8 p-3 md:w-1/4 dark:bg-slate-700 bg-slate-200 text-black rounded-xl shadow-2xl"
     >
       <h2 className="text-4xl font-bold text-center text-blue-400 mb-6 drop-shadow-md">
         Sign In
@@ -70,7 +72,7 @@ const SignIn = ({ auth, onSignUpClick }) => {
           <p className="mx-5 text-center text-white">
             {"Don't have an account?  "}
             <button
-              onClick={onSignUpClick}
+              onClick={() => signUpLink(true)}
               className="text-blue-500 hover:underline"
             >
               Sign Up

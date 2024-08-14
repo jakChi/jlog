@@ -1,9 +1,8 @@
-import SignOut from "./SignOut";
 import ThemeSwitch from "./ThemeSwitch";
 import UpdateProf from "./UpdateProf";
 
 /* eslint-disable react/prop-types */
-const UserInfo = ({ user, auth, setUser }) => {
+const UserInfo = ({ user, auth }) => {
   return (
     <div className="h-full flex flex-col justify-between">
       <div className="flex flex-col items-center justify-around h-2/5 text-xs md:text-base font-semibold relative">
@@ -35,7 +34,7 @@ const UserInfo = ({ user, auth, setUser }) => {
       </div>
       <div className="flex flex-col h-32 justify-between items-center py-3">
         <ThemeSwitch />
-        <SignOut auth={auth} setUser={setUser} />
+        
       </div>
     </div>
   );
