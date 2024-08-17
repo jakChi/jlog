@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // import "firebaseui/dist/firebaseui.css";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useState } from "react";
 
 const SignUpComponent = ({ auth, db, loadingState }) => {
@@ -34,10 +34,13 @@ const SignUpComponent = ({ auth, db, loadingState }) => {
 
       // add user to db
       await setDoc(doc(db, "users", user.uid), {
+        userId: user.uid,
         userName,
         profilePicUrl,
         email,
         password,
+        status: "online",
+        lastSignIn: serverTimestamp(),
       });
 
       console.log("User signed up and profile updated");
@@ -56,8 +59,8 @@ const SignUpComponent = ({ auth, db, loadingState }) => {
   };
 
   return (
-    <div className="md:absolute md:top-24 md:right-16 md:p-8 p-3 md:w-1/4 dark:bg-slate-700 bg-slate-200 text-black rounded-xl shadow-2xl">
-      <h2 className="text-4xl font-bold text-center text-blue-400 mb-6 drop-shadow-md">
+    <div className="absolute top-20 md:top-24 right-5 md:right-16 md:p-10 p-5 md:w-1/4 w-[90%] dark:bg-slate-900 bg-slate-200 rounded-xl shadow-xl shadow-gray-600">
+      <h2 className="text-4xl font-bold text-center text-blue-500 mb-6 drop-shadow-md">
         Sign Up
       </h2>
       <form onSubmit={handleSubmit}>

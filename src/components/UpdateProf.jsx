@@ -46,7 +46,7 @@ const UpdateProf = ({ auth }) => {
   return (
     <div>
       {view ? (
-        <div className="absolute top-full right-0 md:p-10 p-5 transition-all duration-1000 dark:bg-slate-900 bg-slate-300 dark:text-white text-black rounded-3xl">
+        <div className="absolute top-full right-0 md:p-10 p-3 py-7 transition-all duration-300 dark:bg-slate-900 bg-slate-300 dark:text-white text-black rounded-3xl">
           <div className="update-profile">
             <label className="block mb-2">
               New Username:

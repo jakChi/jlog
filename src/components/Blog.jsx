@@ -59,7 +59,9 @@ const Blog = (props) => {
         }
       } else {
         if (type == "like") {
-          await updateDoc(docRef, { likes: arrayRemove(props.currentUser.uid) });
+          await updateDoc(docRef, {
+            likes: arrayRemove(props.currentUser.uid),
+          });
           console.log("like reaction removed");
         } else if (type == "dislike") {
           await updateDoc(docRef, {
@@ -94,14 +96,14 @@ const Blog = (props) => {
     }
   }
 
-
+  //users
 
   return (
-    <div className="flex flex-col md:flex-row my-5 relative">
+    <div className="my-5 relative ">
       {!commPanel ? (
         <div
           id="blog-container"
-          className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:m-auto md:p-10 w-full md:w-4/5 h-max container group transition-all duration-400"
+          className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:m-auto md:p-10 w-[70%]  h-max container transition-all duration-400"
         >
           <div className="flex items-center mb-5">
             <h2 id="blog-name" className="text-xl md:text-4xl font-extrabold ">
@@ -116,15 +118,33 @@ const Blog = (props) => {
           </div>
           <div className="flex justify-between items-center my-5">
             <h5 className="text-xs md:text-base text-gray-500">{date}</h5>
-            <div className="flex items-center">
+            <div className="flex items-center group relative">
               <h5 className=" text-gray-500 text-xs md:text-base">Author:</h5>
-              <div className="mx-3 w-8 md:w-12 h-8 md:h-12 rounded-full overflow-hidden border-2 border-indigo-700">
+
+              <div className="mx-3 md:w-16 h-8 md:h-16 rounded-full overflow-hidden border-2 border-indigo-700  cursor-pointer">
                 <img
-                  src={props.currentUser.photoURL}
+                  src={
+                    props.currentUser !== "Guest"
+                      ? props.users
+                          .filter((user) => user.userId === props.authorUid)
+                          .map((user) => user.profilePicUrl)
+                      : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcbmedia.nyc3.digitaloceanspaces.com%2Fmedia%2F216%2Fposts%2FgXKy1OlKQ91R54061gXKy1OlKQ91R54061_gOjQZKk3G4Dv082402_112.jpeg&f=1&nofb=1&ipt=926e06d1971134c95f774374211f416c74f5fa016f0e0b36f186dfa513e4e95d&ipo=images"
+                  }
                   alt="user"
-                  className="w-full h-full object-cover"
+                  className={`w-full h-full object-cover `}
                 />
               </div>
+              <p
+                className={`absolute bottom-3 -right-28 group-hover:-right-44 opacity-0 group-hover:opacity-100 transition-all duration-300  mx-3 p-1 px-3 bg-slate-950 rounded-full border ${
+                  props.authorUid === props.currentUser.uid
+                    ? "text-green-500 border-green-700"
+                    : "text-orange-600"
+                }`}
+              >
+                {props.authorUid === props.currentUser.uid
+                  ? "you"
+                  : props.author}
+              </p>
             </div>
           </div>
           <div id="post-activity" className="flex justify-between w-max mt-4">
@@ -162,7 +182,7 @@ const Blog = (props) => {
           </div>
         </div>
       ) : (
-        <div className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:p-10 md:m-auto w-full md:w-4/5 h-max container group transition-all duration-400">
+        <div className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:p-10 md:m-auto w-full md:w-[70%] h-max container group transition-all duration-400">
           <div id="post-part">
             <h2
               id="blog-name"
@@ -187,12 +207,15 @@ const Blog = (props) => {
                   >
                     <span
                       className={`${
-                        comment.user === props.userName
+                        comment.user === props.currentUser.displayName
                           ? "dark:text-green-600 text-green-800"
                           : "text-orange-700"
                       } font-bold`}
                     >
-                      {comment.user}:
+                      {comment.user === props.currentUser.displayName
+                        ? "you"
+                        : comment.user}
+                      :
                     </span>{" "}
                     {comment.content}
                   </li>

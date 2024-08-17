@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "./global.css";
 import CreateNew from "./components/CreateNew";
+
+// import firebase from "firebase/app";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -10,13 +12,13 @@ import {
   query,
   orderBy,
   onSnapshot,
+  serverTimestamp,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-import SignIn from "./components/SignIn";
 import BlogList from "./components/BlogList";
 import Navbar from "./components/Navbar";
-import SignUpComponent from "./components/SignUpComponent";
+import Users from "./components/Users";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAawNCaqR1mwc1UvSwhAJlWYk6AGj9Z1rg",
@@ -36,18 +38,7 @@ const App = () => {
   //app state
   const [user, setUser] = useState(true);
   const [blogList, setBlogList] = useState([]);
-  // const [userList, setUserList] = useState([]);
-  // const [registering, setRegistering] = useState(false);
-  // const [userList, setUserList] = useState([]);
-
-  // users stuff
-  // const getUsers = async () => {
-  //   const docRef = collection(db, "users");
-
-  //   const userSnapshot = await getDocs(docRef);
-  //   setUserList(userSnapshot.docs.map((doc) => doc.data()));
-  //   console.log("userList has called ", userList);
-  // };
+  const [userList, setUserList] = useState([]);
 
   // parameters are provided from CreateNew component
   const blogToDb = async (data) => {
@@ -79,10 +70,20 @@ const App = () => {
 
   // when user authentification changes this listenner gets called
   const monitorAuthState = () => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(auth.currentUser);
         console.log("auth state listener got called!");
+
+        //user is signed in update users collection
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            lastSignIn: serverTimestamp(),
+            status: "online",
+          },
+          { merge: true }
+        );
       } else {
         setUser(null);
         console.log("User is not logged in!");
@@ -95,17 +96,20 @@ const App = () => {
     monitorAuthState();
 
     const postsQ = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
-    //const usersQ = query(collection(db, "users"), orderBy("userName", "asc"));
+    const usersQ = query(collection(db, "users"), orderBy("userName", "asc"));
 
-    const postsObserver = onSnapshot(postsQ, (querySnapshot) => {
-      const posts = [];
-      querySnapshot.forEach((doc) => {
-        posts.push(doc.data());
-      });
-      setBlogList(posts);
+    const postsObserver = onSnapshot(postsQ, (postSnapshot) => {
+      setBlogList(postSnapshot.docs.map((doc) => doc.data()));
     });
 
-    return postsObserver;
+    const usersObserver = onSnapshot(usersQ, (userSnapshot) => {
+      setUserList(userSnapshot.docs.map((doc) => doc.data()));
+    });
+
+    return () => {
+      postsObserver();
+      usersObserver();
+    };
   }, [user]);
 
   //this function can change all the documents at the same time
@@ -135,7 +139,7 @@ const App = () => {
   // }
 
   return (
-    <div className="bg-white text-black dark:bg-black dark:text-white min-h-screen w-full transition-all">
+    <div className="bg-gray-100 text-black dark:bg-black dark:text-white min-h-screen w-full transition-all">
       <div>
         <Navbar
           user={user ? user : "Guest"}
@@ -143,14 +147,18 @@ const App = () => {
           auth={auth}
           db={db}
         />
-        <main className="w-full flex flex-col md:flex-row mt-16 sm:mt-20">
+        <main className="w-full md:w-[90%] md:mt-20 mt-16 flex">
           {/* <button onClick={addFieldsToExistingDocuments}>update all</button> */}
-          <CreateNew blogsFunction={blogToDb} user={user ? user : "Guest"} />
-          <BlogList
-            blogsData={blogList}
-            user={user ? user : "Guest"}
-            db={db}
-          />
+          <div className="w-full md:w-4/5">
+            <CreateNew blogsFunction={blogToDb} user={user ? user : "Guest"} />
+            <BlogList
+              blogsData={blogList}
+              user={user ? user : "Guest"}
+              usersData={userList}
+              db={db}
+            />
+          </div>
+          <Users data={userList} currentUser={user} />
         </main>
       </div>
     </div>
