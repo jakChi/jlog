@@ -8,7 +8,7 @@ const Users = ({ data, currentUser }) => {
             <li
               key={i}
               className={`m-2 mb-4 md:p-3 w-max md:w-full flex items-center text-lg dark:bg-slate-950 bg-slate-400 rounded-full border ${
-                user.status === "online" ? "border-green-500" : "border-red-600"
+                user.status === "online" ? "dark:border-green-500 border-green-700" : "border-red-600"
               }`}
             >
               <div

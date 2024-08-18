@@ -23,7 +23,7 @@ const Navbar = ({ user, auth, setUser, db }) => {
             Jlog
           </a>
           <span className="text-sm font-mono font-bold dark:text-gray-300 text-gray-700">
-            (3.0)
+            (3.0.1)
           </span>
         </header>
       </div>
