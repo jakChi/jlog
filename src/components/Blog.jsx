@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { marked } from "marked";
+// import { marked } from "marked";
 import {
   doc,
   updateDoc,
@@ -36,17 +36,24 @@ const Blog = (props) => {
     });
 
     return unsub;
-  }, []);
+  }, [props.db, props.docId]);
 
   //reactions
+
   async function reactOnPost(type) {
     const docRef = doc(props.db, "blogs", props.docId);
     const docSnap = await getDoc(docRef);
+    const docData = docSnap.data();
+
+    if (!docSnap.exists()) {
+      console.error("Document does not exist!");
+      return;
+    }
 
     try {
       if (
-        !docSnap.data().likes.includes(props.currentUser.uid) &&
-        !docSnap.data().dislikes.includes(props.currentUser.uid)
+        !docData.likes.includes(props.currentUser.uid) &&
+        !docData.dislikes.includes(props.currentUser.uid)
       ) {
         if (type == "like") {
           await updateDoc(docRef, { likes: arrayUnion(props.currentUser.uid) });
@@ -103,7 +110,7 @@ const Blog = (props) => {
       {!commPanel ? (
         <div
           id="blog-container"
-          className="dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:m-auto md:p-10 w-[70%]  h-max container transition-all duration-400"
+          className="relative dark:bg-gray-900 bg-slate-300 dark:text-white text-black shadow-xl rounded-lg p-2 py-5 md:m-auto md:p-10 md:w-[70%] w-full h-max container transition-all duration-400"
         >
           <div className="flex items-center mb-5">
             <h2 id="blog-name" className="text-xl md:text-4xl font-extrabold ">
@@ -112,16 +119,20 @@ const Blog = (props) => {
           </div>
           {/* agar mushaobs formateri ratomgac */}
           <div className="text-sm md:text-lg mb-4 overflow-scroll text-pretty">
-            <div
-              dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }}
-            />
+            <div>{props.text}</div>
           </div>
           <div className="flex justify-between items-center my-5">
             <h5 className="text-xs md:text-base text-gray-500">{date}</h5>
-            <div className="flex items-center group relative">
+            <div className="flex items-center group">
               <h5 className=" text-gray-500 text-xs md:text-base">Author:</h5>
 
-              <div className="mx-3 md:w-16 h-8 md:h-16 rounded-full overflow-hidden border-2 border-indigo-700  cursor-pointer">
+              <div
+                className={`mx-3 w-8 md:w-16 h-8 md:h-16 rounded-full overflow-hidden border-2 ${
+                  props.authorUid === props.currentUser.uid
+                    ? "border-sky-500"
+                    : "border-stone-500"
+                } cursor-pointer`}
+              >
                 <img
                   src={
                     props.currentUser !== "Guest"
@@ -131,19 +142,21 @@ const Blog = (props) => {
                       : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcbmedia.nyc3.digitaloceanspaces.com%2Fmedia%2F216%2Fposts%2FgXKy1OlKQ91R54061gXKy1OlKQ91R54061_gOjQZKk3G4Dv082402_112.jpeg&f=1&nofb=1&ipt=926e06d1971134c95f774374211f416c74f5fa016f0e0b36f186dfa513e4e95d&ipo=images"
                   }
                   alt="user"
-                  className={`w-full h-full object-cover `}
+                  className={`w-full h-full object-cover`}
                 />
               </div>
               <p
-                className={`absolute bottom-3 -right-28 group-hover:-right-44 opacity-0 group-hover:opacity-100 transition-all duration-300  mx-3 p-1 px-3 bg-slate-950 rounded-full border ${
+                className={`absolute bottom-16 md:bottom-32 md:left-[84%] right-5 md:group-hover:left-[102%] opacity-0 group-hover:opacity-100 scale-0 group-hover:scale-100  md:border-2 md:rounded-full transition-all duration-500 w-max p-1 md:px-4 text-center text-[12px] md:text-lg ${
                   props.authorUid === props.currentUser.uid
-                    ? "text-green-500 border-green-700"
-                    : "text-orange-600"
+                    ? "text-sky-600  md:bg-sky-300"
+                    : "text-stone-600 md:bg-stone-300"
                 }`}
               >
-                {props.authorUid === props.currentUser.uid
-                  ? "you"
-                  : props.author}
+                {props.currentUser !== "Guest"
+                  ? props.authorUid === props.currentUser.uid
+                    ? "you"
+                    : props.author
+                  : "AnonUser"}
               </p>
             </div>
           </div>
@@ -191,9 +204,7 @@ const Blog = (props) => {
               {props.name}
             </h2>
             <div className="text-sm md:text-lg mb-4 overflow-x-scroll line-clamp-1">
-              <div
-                dangerouslySetInnerHTML={{ __html: marked.parse(props.text) }}
-              />
+              <div>{props.text}</div>
             </div>
           </div>
           <hr />

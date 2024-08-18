@@ -13,8 +13,12 @@ import {
   orderBy,
   onSnapshot,
   serverTimestamp,
+  limit,
 } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 import BlogList from "./components/BlogList";
 import Navbar from "./components/Navbar";
@@ -34,6 +38,8 @@ const App = () => {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(); //amis inicializeba aq mchirdeba ro sawyisi gverdi gavxsna
   const db = getFirestore(app);
+
+
 
   //app state
   const [user, setUser] = useState(true);
@@ -95,8 +101,12 @@ const App = () => {
   useEffect(() => {
     monitorAuthState();
 
-    const postsQ = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
-    const usersQ = query(collection(db, "users"), orderBy("userName", "asc"));
+    const postsQ = query(
+      collection(db, "blogs"),
+      orderBy("createdAt", "desc"),
+      limit(10)
+    );
+    const usersQ = query(collection(db, "users"), orderBy("lastSignIn", "desc"));
 
     const postsObserver = onSnapshot(postsQ, (postSnapshot) => {
       setBlogList(postSnapshot.docs.map((doc) => doc.data()));
@@ -139,7 +149,7 @@ const App = () => {
   // }
 
   return (
-    <div className="bg-gray-100 text-black dark:bg-black dark:text-white min-h-screen w-full transition-all">
+    <div className="bg-gray-100 text-black dark:bg-black dark:text-white min-h-screen w-full transition-all duration-300">
       <div>
         <Navbar
           user={user ? user : "Guest"}
@@ -147,8 +157,9 @@ const App = () => {
           auth={auth}
           db={db}
         />
-        <main className="w-full md:w-[90%] md:mt-20 mt-16 flex">
+        <main className="w-full md:w-[90%] md:mt-20 md:m-auto mt-16 flex flex-col md:flex-row ">
           {/* <button onClick={addFieldsToExistingDocuments}>update all</button> */}
+          {user ? <Users data={userList} currentUser={user} /> : null}
           <div className="w-full md:w-4/5">
             <CreateNew blogsFunction={blogToDb} user={user ? user : "Guest"} />
             <BlogList
@@ -158,7 +169,6 @@ const App = () => {
               db={db}
             />
           </div>
-          <Users data={userList} currentUser={user} />
         </main>
       </div>
     </div>

@@ -28,7 +28,7 @@ function ThemeSwitch() {
   };
 
   return (
-    <div className="w-10 md:w-16 h-10 md:h-16 cursor-pointer">
+    <div className="w-8 md:w-16 h-8 md:h-16 cursor-pointer">
       <i
         onClick={toggleThemeChange}
         className="w-full h-full flex items-center justify-center "

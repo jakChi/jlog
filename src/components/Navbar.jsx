@@ -11,7 +11,7 @@ const Navbar = ({ user, auth, setUser, db }) => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <nav className="bg-gray-200 dark:bg-gray-800 border border-transparent dark:border-b-yellow-500 border-b-purple-700 fixed top-0 left-0 w-screen h-16 md:h-20 flex justify-between z-30">
+    <nav className="transition-all duration-500 bg-gray-200 dark:bg-gray-800 border border-transparent dark:border-b-yellow-500 border-b-purple-700 fixed top-0 left-0 w-screen h-16 md:h-20 flex justify-between z-30">
       <div className="flex items-center w-1/2 md:w-1/3">
         <header className="mx-5">
           <a
@@ -27,27 +27,27 @@ const Navbar = ({ user, auth, setUser, db }) => {
           </span>
         </header>
       </div>
-      <div className="w-1/3 md:w-[10%] mx-5 flex justify-around">
+      <div className="w-1/3 md:w-[10%] md:mx-5 flex justify-around">
         <div className="flex items-center">
           <ThemeSwitch />
         </div>
         {user !== "Guest" ? (
           <div className="group flex items-center w-max">
-            <div className="w-14 md:w-16 h-14 md:h-16 rounded-full overflow-hidden border-2 border-sky-500">
+            <div className="w-12 md:w-16 h-12 md:h-16 rounded-full overflow-hidden border-2 border-sky-500">
               <img
                 className="w-full h-full object-cover cursor-pointer"
                 src={user.photoURL}
                 alt="profile"
               />
             </div>
-            <div className="bg-gray-200 dark:bg-gray-800 absolute -right-full p-4 group-hover:right-0 top-0 sm:w-96 w-fit h-screen transition-all duration-300 sm:delay-300">
+            <div className="bg-gray-200 dark:bg-gray-800 absolute -right-full p-4 group-hover:right-0 top-0 sm:w-96 w-[70%] h-screen transition-all duration-300 sm:delay-300">
               <UserInfo user={user} auth={auth} setUser={setUser} db={db} />
             </div>
           </div>
         ) : (
-          <div className="md:w-1/3 flex">
+          <div className="w-full flex">
             <button
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold w-max h-max md:w-1/3 m-auto p-1 md:py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold w-max h-max md:w-full m-auto p-1 md:py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               onClick={() => {
                 setAuthWindow(!authWindow);
                 setRegister(false);

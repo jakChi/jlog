@@ -53,13 +53,13 @@ const CreateNew = ({ blogsFunction, user }) => {
   };
 
   return editor ? (
-    <div id="create-blog-full" className="w-full m-auto mt-20 p-5">
+    <div id="create-blog-full" className="w-full m-auto md:mt-20 md:mb-10 p-5">
       <form
         onSubmit={createBlog}
         className="w-full md:w-4/5 md:m-auto p-5 md:p-10 flex flex-col justify-between rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
       >
         <div>
-          <h1 className="text-center md:text-3xl text-lg font-extrabold ">
+          <h1 className="text-center md:text-3xl text-lg font-extrabold mb-5">
             Create Post
           </h1>
           <label className="block mb-2">
@@ -72,7 +72,7 @@ const CreateNew = ({ blogsFunction, user }) => {
               autoComplete="off"
               autoFocus
               required
-              className="border border-gray-700 rounded-md py-2 px-3 mt-1 md:w-1/2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 bg-gray-400 placeholder:text-gray-600"
+              className="rounded-md py-2 px-3 mt-1 md:w-1/2 w-full md:text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 bg-gray-400 placeholder:text-gray-600"
             />
           </label>
           <label className="block mb-2">
@@ -86,18 +86,18 @@ const CreateNew = ({ blogsFunction, user }) => {
           </label>
         </div>
 
-        <div id="create-btns">
+        <div id="create-btns" className="flex">
           <button
             id="create"
             type="submit"
-            className="btn bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-1/2 bg-green-600 hover:bg-green-700 text-white font-semibold p-2 rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             onClick={createBlog}
           >
             show it to world
           </button>
           <button
             id="delete"
-            className="btn bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="w-1/2 bg-gray-700 hover:bg-gray-600 text-white font-semibold p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300"
             onClick={cancelPost}
           >
             nah, cancel
@@ -107,7 +107,7 @@ const CreateNew = ({ blogsFunction, user }) => {
       <p className="text-red-700 my-2">{error}</p>
     </div>
   ) : (
-    <div className="w-full md:w-2/3 m-auto mt-10 md:my-12 flex items-center justify-center">
+    <div className="w-full md:w-2/3 m-auto my-5 md:my-12 flex items-center justify-center">
       <input
         type="text"
         placeholder="what's on your mind"
