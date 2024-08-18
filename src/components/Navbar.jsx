@@ -4,11 +4,13 @@ import SignIn from "./SignIn";
 import { useState } from "react";
 import SignUpComponent from "./SignUpComponent";
 import ThemeSwitch from "./ThemeSwitch";
+import { BellIcon } from "@heroicons/react/24/solid";
 
 const Navbar = ({ user, auth, setUser, db }) => {
   const [authWindow, setAuthWindow] = useState(false);
   const [register, setRegister] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [ping, setPing] = useState(true);
 
   return (
     <nav className="transition-all duration-500 bg-gray-200 dark:bg-gray-800 border border-transparent dark:border-b-yellow-500 border-b-purple-700 fixed top-0 left-0 w-screen h-16 md:h-20 flex justify-between z-30">
@@ -27,9 +29,31 @@ const Navbar = ({ user, auth, setUser, db }) => {
           </span>
         </header>
       </div>
-      <div className="w-1/3 md:w-[10%] md:mx-5 flex justify-around">
-        <div className="flex items-center">
-          <ThemeSwitch />
+
+      <div className="w-1/2 md:w-[15%] md:mx-5 flex justify-around">
+        {/* am zars mere ping animacia unda gavuketo */}
+        <div className="flex items-center relative">
+          <div
+            className="w-7 h-7 text-red-600 cursor-pointer"
+            onClick={() => setPing(false)}
+          >
+            <div className="absolute top-4 md:top-6 left-0">
+              <span className="relative flex h-3 w-3">
+                {ping ? (
+                  <>
+                    <span
+                      className={`animate-ping absolute top inline-flex h-full w-full rounded-full bg-sky-400 opacity-75`}
+                    ></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                  </>
+                ) : null}
+              </span>
+            </div>
+            <BellIcon />
+          </div>
+          <div className="flex items-center">
+            <ThemeSwitch />
+          </div>
         </div>
         {user !== "Guest" ? (
           <div className="group flex items-center w-max">

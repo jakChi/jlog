@@ -19,6 +19,7 @@ import {
   getAuth,
   onAuthStateChanged,
 } from "firebase/auth";
+import { getPerformance } from "firebase/performance";
 
 import BlogList from "./components/BlogList";
 import Navbar from "./components/Navbar";
@@ -39,7 +40,8 @@ const App = () => {
   const auth = getAuth(); //amis inicializeba aq mchirdeba ro sawyisi gverdi gavxsna
   const db = getFirestore(app);
 
-
+  // Initialize Performance Monitoring and get a reference to the service
+  const perf = getPerformance(app);
 
   //app state
   const [user, setUser] = useState(true);
@@ -106,7 +108,10 @@ const App = () => {
       orderBy("createdAt", "desc"),
       limit(10)
     );
-    const usersQ = query(collection(db, "users"), orderBy("lastSignIn", "desc"));
+    const usersQ = query(
+      collection(db, "users"),
+      orderBy("lastSignIn", "desc")
+    );
 
     const postsObserver = onSnapshot(postsQ, (postSnapshot) => {
       setBlogList(postSnapshot.docs.map((doc) => doc.data()));
