@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 // import { marked } from "marked";
+import { MegaphoneIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleLeftRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import {
   doc,
   updateDoc,
@@ -146,7 +148,7 @@ const Blog = (props) => {
                 />
               </div>
               <p
-                className={`absolute bottom-16 md:bottom-32 md:left-[84%] right-5 md:group-hover:left-[102%] opacity-0 group-hover:opacity-100 scale-0 group-hover:scale-100  md:border-2 md:rounded-full transition-all duration-500 w-max p-1 md:px-4 text-center text-[12px] md:text-lg ${
+                className={`absolute bottom-16 group-hover:bottom-10 md:bottom-24 md:group-hover:bottom-24 md:left-[84%] right-5 md:group-hover:left-[102%] opacity-0 group-hover:opacity-100 scale-0 group-hover:scale-100  md:border-2 md:rounded-full transition-all duration-500 w-max p-1 md:px-4 text-center text-[12px] md:text-lg ${
                   props.authorUid === props.currentUser.uid
                     ? "text-sky-600  md:bg-sky-300"
                     : "text-stone-600 md:bg-stone-300"
@@ -189,8 +191,11 @@ const Blog = (props) => {
                 ⬇️ {dislikes.length}
               </button>
             </div>
-            <button className="m-4" onClick={() => setCommPanel(true)}>
-              💬 {comments.length}
+            <button
+              className="flex items-center mx-4"
+              onClick={() => setCommPanel(true)}
+            >
+              <ChatBubbleLeftRightIcon className="w-5 " /> {comments.length}
             </button>
           </div>
         </div>
@@ -223,9 +228,11 @@ const Blog = (props) => {
                           : "text-orange-700"
                       } font-bold`}
                     >
-                      {comment.user === props.currentUser.displayName
-                        ? "you"
-                        : comment.user}
+                      {props.currentUser !== "Guest"
+                        ? comment.user === props.currentUser.displayName
+                          ? "you"
+                          : comment.user
+                        : "AnonUser"}
                       :
                     </span>{" "}
                     {comment.content}
@@ -238,28 +245,28 @@ const Blog = (props) => {
               )}
             </ol>
           </div>
-          <div id="input-filed" className="flex justify-around">
+          <div id="input-filed" className="flex justify-center">
             <input
               type="text"
               placeholder="Ready to Fight?"
-              className="w-4/5 h-10 p-3 mx-1 text-black rounded-2xl text-xs"
+              className="w-[70%] md:w-[80%] p-1 md:p-3 mx-1 text-black rounded-lg text-sm"
               onChange={(e) => setComInput(e.target.value)}
               value={comInput}
             />
-            <div>
+            <div className="w-[30%] md:w-[20%] flex items-center justify-center">
               <button
                 type="submit"
-                className="w-10  dark:bg-slate-700 bg-slate-400 hover:bg-slate-500 h-10 mx-1 p-1 rounded-lg active:bg-slate-300"
-                onClick={submitComment}
+                className="w-8 md:w-10 h-8 md:h-10  dark:bg-slate-700 bg-slate-400 hover:bg-slate-500 text-green-500  mx-1 p-1 rounded-lg active:bg-slate-300"
+                onClick={comInput ? submitComment : null}
               >
-                📣
+                <MegaphoneIcon />
               </button>
               <button
                 type="submit"
-                className="w-10 dark:bg-slate-700 bg-slate-400 hover:bg-slate-500 h-10 mx-1 p-1 rounded-lg active:bg-slate-300"
+                className="w-8 md:w-10 h-8 md:h-10 dark:bg-slate-700 bg-slate-400 hover:bg-slate-500 text-red-600 mx-1 p-1 rounded-lg active:bg-slate-300"
                 onClick={() => setCommPanel(false)}
               >
-                ❌
+                <XMarkIcon />
               </button>
             </div>
           </div>

@@ -8,7 +8,9 @@ const Users = ({ data, currentUser }) => {
             <li
               key={i}
               className={`m-2 mb-4 md:p-3 w-max md:w-full flex items-center text-lg dark:bg-slate-950 bg-slate-400 rounded-full border ${
-                user.status === "online" ? "dark:border-green-500 border-green-700" : "border-red-600"
+                user.status === "online"
+                  ? "dark:border-green-500 border-green-700"
+                  : "border-red-600"
               }`}
             >
               <div
@@ -33,10 +35,10 @@ const Users = ({ data, currentUser }) => {
           ))
         ) : (
           <div>
-            <ol className="flex flex-row md:flex-col overflow-x-auto">
+            <ol className="flex flex-row md:flex-col md:overflow-x-auto">
               <li
                 id="user-skeleton"
-                className={`text-lg m-2 mb-4 md:p-3 w-max flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
+                className={`animate-pulse text-lg m-2 mb-4 md:p-3 w-max md:w-[90%] flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
               >
                 <div className="w-12 md:w-16 h-12 md:h-16 md:mr-3 rounded-full bg-slate-500" />
 
@@ -44,7 +46,7 @@ const Users = ({ data, currentUser }) => {
               </li>
               <li
                 id="user-skeleton"
-                className={`text-lg m-2 mb-4 md:p-3 w-max flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
+                className={`animate-pulse text-lg m-2 mb-4 md:p-3 w-max md:w-[90%] flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
               >
                 <div className="w-12 md:w-16 h-12 md:h-16 md:mr-3 rounded-full bg-slate-500" />
 
@@ -52,7 +54,7 @@ const Users = ({ data, currentUser }) => {
               </li>
               <li
                 id="user-skeleton"
-                className={`text-lg m-2 mb-4 md:p-3 w-max flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
+                className={`animate-pulse text-lg m-2 mb-4 md:p-3 w-max md:w-[90%] flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
               >
                 <div className="w-12 md:w-16 h-12 md:h-16 md:mr-3 rounded-full bg-slate-500" />
 
@@ -60,7 +62,7 @@ const Users = ({ data, currentUser }) => {
               </li>
               <li
                 id="user-skeleton"
-                className={`text-lg m-2 mb-4 md:p-3 w-max flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
+                className={`animate-pulse text-lg m-2 mb-4 md:p-3 w-max md:w-[90%] flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
               >
                 <div className="w-12 md:w-16 h-12 md:h-16 md:mr-3 rounded-full bg-slate-500" />
 
@@ -68,21 +70,12 @@ const Users = ({ data, currentUser }) => {
               </li>
               <li
                 id="user-skeleton"
-                className={`text-lg m-2 mb-4 md:p-3 w-max flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
+                className={`animate-pulse text-lg m-2 mb-4 md:p-3 w-max md:w-[90%] flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
               >
                 <div className="w-12 md:w-16 h-12 md:h-16 md:mr-3 rounded-full bg-slate-500" />
 
                 <div className="w-32 h-8 bg-slate-500 rounded-full hidden md:flex" />
               </li>
-              <li
-                id="user-skeleton"
-                className={`text-lg m-2 mb-4 md:p-3 w-max flex items-center  dark:bg-slate-950 bg-slate-400 rounded-full border`}
-              >
-                <div className="w-12 md:w-16 h-12 md:h-16 md:mr-3 rounded-full bg-slate-500" />
-
-                <div className="w-32 h-8 bg-slate-500 rounded-full hidden md:flex" />
-              </li>
-             
             </ol>
             <p className="text-center">Loading users...</p>
           </div>
