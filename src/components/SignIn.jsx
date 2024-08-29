@@ -12,18 +12,15 @@ const SignIn = ({ auth, signUpLink, loadingState }) => {
     setLoading(true);
     setError(null);
 
-    await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        loadingState(false);
-
-        console.log("user signed in: ", user);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        setError(errorMessage);
-        loadingState(false);
-      });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      loadingState(true);
+      console.log("user signed in");
+    } catch (error) {
+      const errorMessage = error.message;
+      setError(errorMessage);
+      loadingState(false);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -31,6 +28,18 @@ const SignIn = ({ auth, signUpLink, loadingState }) => {
     signInMethod();
     loadingState(true);
   };
+
+  //TODO: sessions should be killed after some time of inactivity like scrolling
+
+  // useEffect(() => {
+  //   const autoSessionKiller = setInterval(() => {
+  //     console.log("auto sign out start");
+  //     signOut(auth);
+  //     console.log("auto sign out");
+  //   }, 1000);
+
+  //   clearInterval(autoSessionKiller);
+  // }, []);
 
   return (
     <div

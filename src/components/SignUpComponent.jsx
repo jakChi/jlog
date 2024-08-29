@@ -58,6 +58,8 @@ const SignUpComponent = ({ auth, db, loadingState }) => {
     signUp();
   };
 
+  
+
   return (
     <div className="absolute top-20 md:top-24 right-5 md:right-16 md:p-10 p-5 md:w-1/4 w-[90%] dark:bg-slate-900 bg-slate-200 rounded-xl shadow-xl shadow-gray-600">
       <h2 className="text-4xl font-bold text-center text-blue-500 mb-6 drop-shadow-md">
